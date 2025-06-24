@@ -26,7 +26,6 @@ namespace HelloLayout.ViewModels
         }
 
         /// <summary>Gets the thing.</summary>
-        ////public DockLayoutRootViewModel LayoutRoot { get; }
         public DockLayoutRootViewModel LayoutRoot { get; }
 
         /// <summary>Build a DockLayoutRootViewModel.</summary>.

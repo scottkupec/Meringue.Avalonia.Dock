@@ -1,5 +1,5 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:layout="clr-namespace:Meringue.Avalonia.Dock.Layout;assembly=Meringue.Avalonia.Dock"
+        xmlns:dock="clr-namespace:Meringue.Avalonia.Dock.Controls;assembly=Meringue.Avalonia.Dock"
         xmlns:viewModels="clr-namespace:HelloLayout.ViewModels"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="HelloLayout.Windows.MainWindow"
@@ -12,7 +12,7 @@
       <Button Content="Save Layout" Command="{Binding SaveLayoutCommand}" Margin="4,0" />
     </StackPanel>
 
-    <layout:DockLayoutRoot DataContext="{Binding LayoutRoot}" />
+    <dock:DockLayoutRoot DataContext="{Binding LayoutRoot}" />
   </DockPanel>
 
 </Window>

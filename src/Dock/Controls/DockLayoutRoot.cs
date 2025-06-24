@@ -3,10 +3,10 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Meringue.Avalonia.Dock.Controls;
+using Meringue.Avalonia.Dock.Layout;
 using Meringue.Avalonia.Dock.ViewModels;
 
-namespace Meringue.Avalonia.Dock.Layout
+namespace Meringue.Avalonia.Dock.Controls
 {
     /// <summary>
     /// A dock panel host.

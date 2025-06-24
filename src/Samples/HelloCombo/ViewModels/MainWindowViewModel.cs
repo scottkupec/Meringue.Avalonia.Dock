@@ -28,11 +28,9 @@ namespace HelloCombo.ViewModels
         }
 
         /// <summary>Gets the thing.</summary>
-        ////public DockLayoutRootViewModel LayoutRoot { get; }
         public DockHostRootViewModel HostRoot { get; }
 
         /// <summary>Gets the thing.</summary>
-        ////public DockLayoutRootViewModel LayoutRoot { get; }
         public DockLayoutRootViewModel LayoutRoot { get; }
 
         /// <summary>Build a DockHostRootViewModel.</summary>.

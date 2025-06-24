@@ -198,10 +198,10 @@
     </Setter>
   </Style>
 
-  <Style Selector=":is(layout|DockLayoutRoot)" x:DataType="viewModels:DockLayoutRootViewModel">
-    <Setter Property="layout:DockLayoutRoot.HostRoot" Value="{Binding HostRoot}" />
-    <Setter Property="layout:DockLayoutRoot.LayoutManager" Value="{Binding LayoutManager}" />
-    <Setter Property="layout:DockLayoutRoot.InsertPolicy" Value="{Binding InsertPolicy}" />
+  <Style Selector=":is(controls|DockLayoutRoot)" x:DataType="viewModels:DockLayoutRootViewModel">
+    <Setter Property="controls:DockLayoutRoot.HostRoot" Value="{Binding HostRoot}" />
+    <Setter Property="controls:DockLayoutRoot.LayoutManager" Value="{Binding LayoutManager}" />
+    <Setter Property="controls:DockLayoutRoot.InsertPolicy" Value="{Binding InsertPolicy}" />
     <Setter Property="Template">
       <ControlTemplate x:DataType="viewModels:DockLayoutRootViewModel">
         <controls:DockHostRoot
