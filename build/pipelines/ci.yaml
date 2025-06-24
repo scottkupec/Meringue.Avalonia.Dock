@@ -1,0 +1,35 @@
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  PackagesPath: '$(Agent.BuildDirectory)\packages'
+  BuildConfiguration: 'Release'
+  BuildPlatform: 'Any CPU'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+
+steps:
+- template: common.yaml
+
+# CI specific task - Source index symbols and publish them to Azure Artifacts Symbol Service
+- task: PublishSymbols@2
+  displayName: Publish debug files
+  inputs:
+    SymbolsFolder: '$(Agent.BuildDirectory)'
+    searchPattern: '**/bin/**'
+    indexSources: true
+    publishSymbols: true
+    symbolServerType: 'teamServices'
+    detailedLog: true
+    symbolsArtifactName: '$(system.teamProject)/$(ProjectName)/$(Build.BuildNumber)/$(Build.BuildId)'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish application
+  inputs:
+    PathToPublish: '$(Build.SourcesDirectory)\artifacts\bin\Meringue.Avalonia.Dock\$(BuildConfiguration)'
+    parallel: true
+    parallelCount: 8
+    publishLocation: 'container'
+    ArtifactName: 'Meringue.Avalonia.Dock'

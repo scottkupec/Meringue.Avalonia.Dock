@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.5.1" >
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" VersionOverride="17.12.0" />
+    <PackageReference Include="Moq" VersionOverride="4.18.4" /> <!-- DO NOT UPDATE. -->
+    <PackageReference Include="NSubstitute" VersionOverride="5.1.0" />
+    <PackageReference Include="nunit" VersionOverride="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" VersionOverride="4.5.0" />
+  </ItemGroup>
+</Project>

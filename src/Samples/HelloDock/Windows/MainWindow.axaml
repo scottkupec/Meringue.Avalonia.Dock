@@ -1,0 +1,11 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:dock="clr-namespace:Meringue.Avalonia.Dock.Controls;assembly=Meringue.Avalonia.Dock"
+        xmlns:viewModels="clr-namespace:HelloDock.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HelloDock.Windows.MainWindow"
+        x:DataType="viewModels:MainWindowViewModel"
+        Title="Hello Dock!">
+
+    <dock:DockHostRoot DataContext="{Binding DockRoot}" />
+
+</Window>

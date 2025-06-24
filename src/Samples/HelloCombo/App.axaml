@@ -1,0 +1,12 @@
+<Application
+  x:Class="HelloCombo.App"
+  xmlns="https://github.com/avaloniaui"
+  xmlns:dock="clr-namespace:Meringue.Avalonia.Dock.Themes;assembly=Meringue.Avalonia.Dock"  
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  RequestedThemeVariant="Dark">
+
+  <Application.Styles>
+    <FluentTheme DensityStyle="Compact" />
+    <dock:MeringueDockTheme />
+  </Application.Styles>
+</Application>

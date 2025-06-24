@@ -1,0 +1,20 @@
+﻿// Copyright (C) Meringue Project Team. All rights reserved.
+
+using System;
+using System.Globalization;
+using Avalonia.Data.Converters;
+
+namespace Meringue.Avalonia.Dock.Converters
+{
+    /// <summary>Implements the pin and unpin text handler.</summary>
+    public class PinIconConverter : IValueConverter
+    {
+        /// <inheritdoc/>
+        public Object Convert(Object? value, Type targetType, Object? parameter, CultureInfo culture)
+            => value is Boolean pinned && pinned ? "📌" : "📍";
+
+        /// <inheritdoc/>
+        public Object ConvertBack(Object? value, Type targetType, Object? parameter, CultureInfo culture)
+            => throw new NotImplementedException(); //// Binding.DoNothing;
+    }
+}

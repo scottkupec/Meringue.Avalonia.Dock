@@ -1,0 +1,28 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:controls="clr-namespace:Meringue.Avalonia.Dock.Controls;assembly=Meringue.Avalonia.Dock"
+        xmlns:layout="clr-namespace:Meringue.Avalonia.Dock.Layout;assembly=Meringue.Avalonia.Dock"
+        xmlns:viewModels="clr-namespace:HelloCombo.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HelloCombo.Windows.MainWindow"
+        x:DataType="viewModels:MainWindowViewModel"
+        Title="Hello Combo!">
+
+  <DockPanel>
+    <Grid ColumnDefinitions="*,*" RowDefinitions="*,Auto">
+
+      <StackPanel
+        DockPanel.Dock="Bottom"
+        Grid.Column="0"
+        Grid.Row="1"
+        Orientation="Horizontal"
+        HorizontalAlignment="Right" Margin="8">
+        <Button Content="Load Layout" Command="{Binding LoadLayoutCommand}" Margin="4,0" />
+        <Button Content="Save Layout" Command="{Binding SaveLayoutCommand}" Margin="4,0" />
+      </StackPanel>
+
+      <layout:DockLayoutRoot DataContext="{Binding LayoutRoot}"  Grid.Column="0" Grid.Row="0"/>
+      <controls:DockHostRoot DataContext="{Binding HostRoot}"  Grid.Column="1" Grid.RowSpan="2"/>
+    </Grid>
+  </DockPanel>
+
+</Window>

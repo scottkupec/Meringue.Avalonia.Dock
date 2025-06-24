@@ -1,0 +1,39 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <AvaloniaVersion>11.3.0</AvaloniaVersion>
+    <DockAvaloniaVersion>11.3.0.2</DockAvaloniaVersion>    
+    <DependencyInjectionVersion>9.0.4</DependencyInjectionVersion>
+  </PropertyGroup>
+
+  <ItemGroup> <!-- UI components -->
+    <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="Dock.Avalonia" Version="$(DockAvaloniaVersion)" />
+    <PackageVersion Include="Dock.Model.Mvvm" Version="$(DockAvaloniaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup> <!-- Dependency injection support -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(DependencyInjectionVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="$(DependencyInjectionVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(DependencyInjectionVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="$(DependencyInjectionVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(DependencyInjectionVersion)" />
+  </ItemGroup>
+
+  <ItemGroup> <!-- Everything else -->
+    <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageVersion Include="System.Reactive" Version="6.0.1" />
+    <PackageVersion Include="System.Reactive.Linq" Version="6.0.1" />
+  </ItemGroup>
+    
+  <!-- See also CodeAnalysis.targets because CPM doesn't cascade correctly. -->
+  <!-- See also CodeCoverage.targets because CPM doesn't cascade correctly. -->
+  <!-- See also TestProject.targets because CPM doesn't cascade correctly. -->
+
+</Project>

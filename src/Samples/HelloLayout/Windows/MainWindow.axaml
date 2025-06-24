@@ -1,0 +1,18 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:layout="clr-namespace:Meringue.Avalonia.Dock.Layout;assembly=Meringue.Avalonia.Dock"
+        xmlns:viewModels="clr-namespace:HelloLayout.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HelloLayout.Windows.MainWindow"
+        x:DataType="viewModels:MainWindowViewModel"
+        Title="Hello HelloLayout!">
+
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
+      <Button Content="Load Layout" Command="{Binding LoadLayoutCommand}" Margin="4,0" />
+      <Button Content="Save Layout" Command="{Binding SaveLayoutCommand}" Margin="4,0" />
+    </StackPanel>
+
+    <layout:DockLayoutRoot DataContext="{Binding LayoutRoot}" />
+  </DockPanel>
+
+</Window>

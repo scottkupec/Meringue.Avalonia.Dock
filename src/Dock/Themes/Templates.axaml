@@ -1,0 +1,24 @@
+<DataTemplates
+  xmlns="https://github.com/avaloniaui"
+  xmlns:controls="clr-namespace:Meringue.Avalonia.Dock.Controls"
+  xmlns:layout="clr-namespace:Meringue.Avalonia.Dock.Layout"
+  xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <DataTemplate DataType="viewModels:DockHostRootViewModel">
+    <controls:DockHost Content="{Binding HostRoot}" />
+  </DataTemplate>
+
+  <DataTemplate DataType="viewModels:DockTabNodeViewModel">
+    <controls:DockTabPanel ItemsSource="{Binding PinnedTabs}" />
+  </DataTemplate>
+
+  <DataTemplate DataType="viewModels:DockToolViewModel">
+    <controls:DockTool Header="{Binding Header}" Content="{Binding Context}" />
+  </DataTemplate>
+
+  <DataTemplate DataType="viewModels:DockLayoutRootViewModel">
+    <layout:DockLayoutRoot />
+  </DataTemplate>
+
+</DataTemplates >

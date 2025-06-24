@@ -1,0 +1,21 @@
+<UserControl
+    x:Class="Meringue.Avalonia.Dock.Controls.TabHeaderView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:DataType="viewModels:DockToolViewModel">
+
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+
+    <TextBlock Text="{Binding Header}" />
+    <ToggleButton Grid.Column="1"
+                  IsChecked="{Binding IsPinned, Mode=TwoWay}"
+                  Content="{Binding IsPinned, Converter={StaticResource PinIconConverter}}"
+                  FontSize="12"
+                  Background="Transparent" />
+  </Grid>
+</UserControl>

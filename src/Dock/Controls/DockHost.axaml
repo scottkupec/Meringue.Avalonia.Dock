@@ -1,0 +1,34 @@
+<UserControl
+    x:Class="Meringue.Avalonia.Dock.Controls.DockHost"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:Meringue.Avalonia.Dock.Controls"
+    xmlns:views="clr-namespace:Meringue.Avalonia.Dock.Views"
+    xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:DataType="viewModels:DockNodeViewModel"
+    DragDrop.AllowDrop="True">
+
+  <UserControl.DataTemplates>
+    <DataTemplate DataType="viewModels:DockTabNodeViewModel">
+      <Panel Background="Transparent"
+        DragDrop.AllowDrop="True">
+        <controls:DockTabPanel
+          DragDrop.AllowDrop="True"
+          ItemsSource="{Binding PinnedTabs}" />
+      </Panel>
+    </DataTemplate>
+
+    <DataTemplate DataType="viewModels:DockSplitNodeViewModel">
+      <controls:DockSplitPanel
+        Orientation="{Binding Orientation}"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch" />
+    </DataTemplate>
+
+  </UserControl.DataTemplates>
+
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <!-- ContentControl Content="{Binding}" / -->
+    <ContentControl Content="{Binding}" ContentTemplate="{DynamicResource DockNodeTemplate}" />
+  </Grid>
+</UserControl>
