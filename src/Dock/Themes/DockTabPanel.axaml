@@ -1,0 +1,62 @@
+<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector=":is(controls|DockTabPanel)">
+    <Setter Property="TabStripPlacement" Value="Bottom" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Border Name="PART_DropTarget"
+                  Background="Transparent"
+                  IsHitTestVisible="True"
+                  ZIndex="0" />
+          <DockPanel ZIndex="1">
+            <ItemsPresenter
+              Name="PART_ItemsPresenter"
+              DockPanel.Dock="{TemplateBinding TabStripPlacement}"
+              ItemsPanel="{TemplateBinding ItemsPanel}"
+              IsVisible="{TemplateBinding ShouldShowTabStrip}" />
+
+            <ContentPresenter
+              Name="PART_SelectedContentHost"
+              Content="{TemplateBinding SelectedContent}"
+              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+          </DockPanel>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Setter Property="ItemTemplate">
+      <DataTemplate DataType="viewModels:DockToolViewModel">
+        <TextBlock FontSize="12" Text="{Binding Header}" />
+      </DataTemplate>
+    </Setter>
+
+    <Setter Property="ContentTemplate">
+      <DataTemplate DataType="viewModels:DockToolViewModel">
+        <controls:DockTool Header="{Binding Header}">
+          <ContentPresenter Content="{Binding Context}" />
+        </controls:DockTool>
+      </DataTemplate>
+    </Setter>
+
+    <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Vertical" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Vertical" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Horizontal" />
+      <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Horizontal" />
+      <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+  </Style>
+</Styles>

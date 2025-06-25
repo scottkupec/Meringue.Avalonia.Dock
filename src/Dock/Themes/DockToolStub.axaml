@@ -1,0 +1,62 @@
+<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+  xmlns:helpers="using:Meringue.Avalonia.Dock.Helpers"
+  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector=":is(controls|DockToolStub)">
+    <Setter Property="Template">
+      <ControlTemplate TargetType="controls:DockToolStub">
+        <Border Background="Transparent">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{TemplateBinding Tabs}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Vertical" Width="40" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="viewModels:DockToolViewModel">
+                  <LayoutTransformControl>
+                    <LayoutTransformControl.LayoutTransform>
+                      <RotateTransform Angle="-90" />
+                    </LayoutTransformControl.LayoutTransform>
+
+                    <ToggleButton IsChecked="{Binding IsPinned, Mode=TwoWay}"
+                                  FontSize="12"
+                                  Background="SlateGray"
+                                  helpers:FlyoutHelper.ShowFlyoutOnHover="True">
+
+                      <FlyoutBase.AttachedFlyout>
+                        <Flyout Placement="Right"
+                                ShowMode="TransientWithDismissOnPointerMoveAway"
+                                OverlayDismissEventPassThrough="True">
+                          <ContentControl Content="{Binding Context}">
+                            <ContentControl.ContentTemplate>
+                              <DataTemplate>
+                                <ContentPresenter Content="{Binding}" />
+                              </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                          </ContentControl>
+                        </Flyout>
+                      </FlyoutBase.AttachedFlyout>
+
+                      <StackPanel Orientation="Horizontal"
+                                  Spacing="2"
+                                  HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding IsPinned, Converter={StaticResource PinIconConverter}}" />
+                        <TextBlock Text="{Binding Header}" />
+                      </StackPanel>
+                    </ToggleButton>
+                  </LayoutTransformControl>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

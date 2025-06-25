@@ -1,0 +1,48 @@
+<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector=":is(controls|DockTool)">
+    <Setter Property="Template">
+      <ControlTemplate x:DataType="viewModels:DockToolViewModel">
+        <Grid>
+          <Border IsVisible="{Binding IsVisible}"
+                  Margin="5"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  CornerRadius="4">
+            <DockPanel>
+
+              <Border x:Name="PART_TitleBar"
+                      DockPanel.Dock="Top"
+                      Background="SlateGray"
+                      Padding="1"
+                      Cursor="SizeAll">
+                <controls:TabHeaderView
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top" />
+              </Border>
+
+              <ContentPresenter Content="{Binding Context}" />
+            </DockPanel>
+          </Border>
+
+          <Border IsVisible="{Binding IsVisible, Converter={StaticResource InverseBooleanConverter}}"
+                  Background="SlateGray"
+                  Height="30"
+                  VerticalAlignment="Top"
+                  Margin="5"
+                  CornerRadius="4">
+            <TextBlock Text="{Binding Header}"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Padding="8,4" />
+          </Border>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

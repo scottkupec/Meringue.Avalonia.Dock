@@ -1,5 +1,8 @@
 // Copyright (C) Meringue Project Team. All rights reserved.
 
+using System;
+using Avalonia;
+using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 
@@ -15,13 +18,21 @@ namespace Meringue.Avalonia.Dock.Themes
         /// </summary>
         public MeringueDockTheme()
         {
-            _ = new DataTemplateInclude(new System.Uri("avares://Meringue.Avalonia.Dock/Themes/Templates.axaml"));
+            MeringueDockTheme.InjectTemplates(new System.Uri("avares://Meringue.Avalonia.Dock/Themes/DataTemplates.axaml"));
             AvaloniaXamlLoader.Load(this);
         }
 
-        /////// <summary>
-        /////// Gets the included templates.
-        /////// </summary>
-        ////private DataTemplateInclude IncludedTemplates { get; } = new DataTemplateInclude(new System.Uri("avares://Meringue.Avalonia.Dock/Themes/Templates.axaml"));
+        /// <summary>
+        /// Injects the data templates into the current application.
+        /// </summary>
+        /// <param name="templateUri">The uri of the templates to inject.</param>
+        public static void InjectTemplates(Uri templateUri)
+        {
+            if (Application.Current is { } app)
+            {
+                DataTemplates templates = (DataTemplates)AvaloniaXamlLoader.Load(templateUri);
+                app.DataTemplates.AddRange(templates);
+            }
+        }
     }
 }

@@ -26,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- AvaloniaResource Include="Themes\*.axaml" / -->
-    <AvaloniaXaml Include="Themes\Templates.axaml" />
+    <AvaloniaXaml Include="Themes\DataTemplates.axaml" />
   </ItemGroup>
   
   <ItemGroup>
