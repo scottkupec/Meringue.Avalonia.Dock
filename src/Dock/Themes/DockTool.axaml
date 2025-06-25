@@ -29,7 +29,7 @@
             </DockPanel>
           </Border>
 
-          <Border IsVisible="{Binding IsVisible, Converter={StaticResource InverseBooleanConverter}}"
+          <Border IsVisible="{Binding !IsVisible}"
                   Background="SlateGray"
                   Height="30"
                   VerticalAlignment="Top"

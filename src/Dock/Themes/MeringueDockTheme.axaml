@@ -7,7 +7,6 @@
   <Styles.Resources>
     <ResourceDictionary>
       <converters:PinIconConverter x:Key="PinIconConverter" />
-      <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ResourceDictionary>
   </Styles.Resources>
 
