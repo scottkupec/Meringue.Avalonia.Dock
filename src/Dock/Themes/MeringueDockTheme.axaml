@@ -6,7 +6,6 @@
 
   <Styles.Resources>
     <ResourceDictionary>
-      <converters:DockToOrientationConverter x:Key="DockToOrientationConverter"/>
       <converters:PinIconConverter x:Key="PinIconConverter" />
       <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ResourceDictionary>
