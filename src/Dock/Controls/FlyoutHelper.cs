@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 
-namespace Meringue.Avalonia.Dock.Helpers
+namespace Meringue.Avalonia.Dock.Controls
 {
     /// <summary>
     /// Diplays the flyout for DockToolStub.

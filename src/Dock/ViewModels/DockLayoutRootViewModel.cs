@@ -37,7 +37,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
                     Orientation = global::Avalonia.Layout.Orientation.Horizontal,
                 });
 
-            this.LayoutManager = new DefaultDockLayoutManager();
+            this.LayoutManager = new JsonLayoutManager();
         }
 
         /// <summary>

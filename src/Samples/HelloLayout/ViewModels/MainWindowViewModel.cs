@@ -3,7 +3,6 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Meringue.Avalonia.Dock.Layout;
 using Meringue.Avalonia.Dock.ViewModels;
 
 namespace HelloLayout.ViewModels

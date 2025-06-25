@@ -1,6 +1,6 @@
 // Copyright (C) Meringue Project Team. All rights reserved.
 
-namespace Meringue.Avalonia.Dock.Layout
+namespace Meringue.Avalonia.Dock.ViewModels
 {
     /// <summary>
     /// Defines the options for how non-existing tools should be inserted into a layout.

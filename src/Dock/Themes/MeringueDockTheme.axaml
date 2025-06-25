@@ -1,12 +1,6 @@
 <Styles
   xmlns="https://github.com/avaloniaui"
   xmlns:converters="clr-namespace:Meringue.Avalonia.Dock.Converters"
-  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
-  xmlns:helpers="clr-namespace:Meringue.Avalonia.Dock.Helpers"
-  xmlns:init="clr-namespace:Meringue.Avalonia.Dock"
-  xmlns:layout="clr-namespace:Meringue.Avalonia.Dock.Layout"
-  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   x:Class="Meringue.Avalonia.Dock.Themes.MeringueDockTheme">
 
@@ -24,4 +18,5 @@
   <StyleInclude Source="/Themes/DockTabPanel.axaml" />
   <StyleInclude Source="/Themes/DockTool.axaml" />
   <StyleInclude Source="/Themes/DockToolStub.axaml" />
+
 </Styles>

@@ -49,9 +49,6 @@ namespace Meringue.Avalonia.Dock.Controls
                     this.InsertPolicy = viewModel.InsertPolicy;
                 }
             };
-            // Provide default instances only if not set explicitly.
-            this.HostRoot ??= new DockHostRootViewModel(new DockSplitNodeViewModel());
-            this.LayoutManager ??= new DefaultDockLayoutManager(); // Replace with your actual manager implementation
         }
 
         /// <summary>

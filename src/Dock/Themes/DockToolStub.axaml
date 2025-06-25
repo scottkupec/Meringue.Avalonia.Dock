@@ -1,7 +1,6 @@
 <Styles
   xmlns="https://github.com/avaloniaui"
   xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
-  xmlns:helpers="using:Meringue.Avalonia.Dock.Helpers"
   xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -27,7 +26,7 @@
                     <ToggleButton IsChecked="{Binding IsPinned, Mode=TwoWay}"
                                   FontSize="12"
                                   Background="SlateGray"
-                                  helpers:FlyoutHelper.ShowFlyoutOnHover="True">
+                                  controls:FlyoutHelper.ShowFlyoutOnHover="True">
 
                       <FlyoutBase.AttachedFlyout>
                         <Flyout Placement="Right"

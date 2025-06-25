@@ -10,7 +10,7 @@ namespace Meringue.Avalonia.Dock.Layout
     /// <summary>
     /// A default layout manager implementation using System.Text.Json.
     /// </summary>
-    public class DefaultDockLayoutManager : IDockLayoutManager
+    public class JsonLayoutManager : IDockLayoutManager
     {
         /// <summary>
         /// Defins the <see cref="JsonSerializerOptions"/> used when loading and saving JSON.
