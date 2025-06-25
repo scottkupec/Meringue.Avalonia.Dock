@@ -12,14 +12,13 @@
         <Grid>
           <Border Name="PART_DropTarget"
                   Background="Transparent"
-                  IsHitTestVisible="True"
-                  ZIndex="0" />
-          <DockPanel ZIndex="1">
+                  IsHitTestVisible="True" />
+          <DockPanel>
             <ItemsPresenter
               Name="PART_ItemsPresenter"
               DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-              ItemsPanel="{TemplateBinding ItemsPanel}"
-              IsVisible="{TemplateBinding ShouldShowTabStrip}" />
+              IsVisible="{TemplateBinding ShouldShowTabStrip}" 
+              ItemsPanel="{TemplateBinding ItemsPanel}" />
 
             <ContentPresenter
               Name="PART_SelectedContentHost"
@@ -44,6 +43,10 @@
       </DataTemplate>
     </Setter>
 
+    <Style Selector="^TabItem:selected /template/ ItemsPresenter#PART_ItemsPresenter > Border">
+      <Setter Property="BorderBrush" Value="DeepSkyBlue" />
+    </Style>
+
     <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
       <Setter Property="Orientation" Value="Vertical" />
     </Style>
@@ -59,4 +62,9 @@
       <Setter Property="Margin" Value="0,0,0,4" />
     </Style>
   </Style>
+
+  <Style Selector="controls|DockTabPanel TabItem">
+    <Setter Property="Foreground" Value="SlateGray" />
+  </Style>
+
 </Styles>

@@ -11,7 +11,7 @@ namespace Meringue.Avalonia.Dock.Controls
     /// <summary>
     /// Diplays the flyout for DockToolStub.
     /// </summary>
-    public static class FlyoutHelper
+    internal static class FlyoutHelper
     {
         /// <summary>
         /// Defines the name of f the <see cref="AttachedProperty{TValue}"/> used for displaying the flyout.

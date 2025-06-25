@@ -19,7 +19,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private readonly Dictionary<DockToolViewModel, PropertyChangedEventHandler> pinnedHandlers = [];
 
         /// <summary>
-        /// Gets or sets the top-level node in the <see cref="DockHost"/> tree.
+        /// Gets or sets the top-level <see cref="DockNodeViewModel"/> in the dock controls tree.
         /// </summary>
         [ObservableProperty]
         private DockNodeViewModel hostRoot;
@@ -27,7 +27,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="DockHostRootViewModel"/> class.
         /// </summary>
-        /// <param name="rootNode">The root of the dock tree.</param>
+        /// <param name="rootNode">The root <see cref="DockNodeViewModel"/> for the dock control tree.</param>
         public DockHostRootViewModel(DockNodeViewModel rootNode)
         {
             this.HostRoot = rootNode;
@@ -35,14 +35,8 @@ namespace Meringue.Avalonia.Dock.ViewModels
             this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
         }
 
-        /////// <summary>
-        /////// Gets or sets the top-level node in the <see cref="DockHost"/> tree.
-        /////// </summary>
-        ////public DockNodeViewModel HostRoot { get; set; }
-
         /// <summary>
-        /// Gets the list of tools that are currently unpinnined and represented
-        /// by <see cref="DockToolStub"/>s.
+        /// Gets the list of tools that are currently unpinnined and represented by <see cref="DockToolStub"/>s.
         /// </summary>
         public ObservableCollection<DockToolViewModel> UnpinnedTabs { get; } = [];
 
@@ -58,8 +52,9 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <returns>This needs to be documented.</returns>
         public IObservable<Boolean> GetObservableProperty(String propertyName)
         {
-            return this.WhenAnyPropertyChanged(propertyName)
-                       .Select(_ => this.ShouldShowUnpinnedTabs);
+            return this
+                .WhenAnyPropertyChanged(propertyName)
+                .Select(_ => this.ShouldShowUnpinnedTabs);
         }
 
         /// <summary>
@@ -165,23 +160,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
             this.UpdatePinnedState(tool);
         }
 
-        /// <summary>Hooks tabs.</summary>
-        /// <param name="tool">The node to walk.</param>
-        // TODO: Review. Update docs.
-        private void UpdatePinnedState(DockToolViewModel tool)
-        {
-            if (tool.IsPinned)
-            {
-                _ = this.UnpinnedTabs.Remove(tool);
-            }
-            else if (!this.UnpinnedTabs.Contains(tool))
-            {
-                this.UnpinnedTabs.Add(tool);
-            }
-
-            this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
-        }
-
         /// <summary>
         /// Remove handlers when a node goes away.
         /// </summary>
@@ -217,6 +195,25 @@ namespace Meringue.Avalonia.Dock.ViewModels
             }
 
             _ = this.UnpinnedTabs.Remove(tool); // Also remove from unpinned view
+        }
+
+        /// <summary>Updates the state of <see cref="UnpinnedTabs"/> based on the current state of the <paramref name="tool"/>.</summary>
+        /// <param name="tool">The <see cref="DockToolViewModel"/> to be updated.</param>
+        private void UpdatePinnedState(DockToolViewModel tool)
+        {
+            if (tool.IsPinned)
+            {
+                if (this.UnpinnedTabs.Contains(tool))
+                {
+                    _ = this.UnpinnedTabs.Remove(tool);
+                    this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
+                }
+            }
+            else if (!this.UnpinnedTabs.Contains(tool))
+            {
+                this.UnpinnedTabs.Add(tool);
+                this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
+            }
         }
     }
 }

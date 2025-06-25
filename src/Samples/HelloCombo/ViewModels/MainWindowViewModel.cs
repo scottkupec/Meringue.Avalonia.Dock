@@ -79,9 +79,6 @@ namespace HelloCombo.ViewModels
         private void LoadLayout()
         {
             _ = this.LayoutRoot.LoadLayout("layout.json");
-
-            _ = this.LayoutRoot.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Updated Hello" });
-            _ = this.LayoutRoot.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Updated Layout" });
         }
 
         /// <summary>Save the layout.</summary>

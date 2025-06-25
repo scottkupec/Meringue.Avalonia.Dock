@@ -1,4 +1,4 @@
-// Copyright (C) Meringue Project Team. All rights reserved.
+﻿// Copyright (C) Meringue Project Team. All rights reserved.
 
 using System;
 using System.Collections.ObjectModel;
@@ -6,13 +6,30 @@ using System.Linq;
 using Avalonia.Controls;
 using Meringue.Avalonia.Dock.ViewModels;
 
-namespace Meringue.Avalonia.Dock.Layout.Internal
+namespace Meringue.Avalonia.Dock.Layout
 {
     /// <summary>
-    /// Applies a serialized <see cref="DockLayout"/> structure to a <see cref="DockLayoutRootViewModel"/>.
+    /// Provides services to convert between a <see cref="DockLayout"/> and a <see cref="DockHostRootViewModel"/>.
     /// </summary>
-    public static class DockLayoutApplier
+    internal static class DockLayoutConverter
     {
+        /// <summary>
+        /// Builds a <see cref="DockLayout"/> for the provided <see cref="DockHostRootViewModel"/>.
+        /// </summary>
+        /// <param name="hostRoot">The <see cref="DockHostRootViewModel"/> to be used.</param>
+        /// <returns>The new <see cref="DockLayout"/>.</returns>
+        public static DockLayout BuildLayout(DockHostRootViewModel hostRoot)
+        {
+            ArgumentNullException.ThrowIfNull(hostRoot);
+
+            return new DockLayout
+            {
+                MajorVersion = 1,
+                MinorVersion = 0,
+                RootNode = BuildLayoutNode(hostRoot.HostRoot),
+            };
+        }
+
         /// <summary>
         /// Builds a view model for the provided <paramref name="layout"/>.
         /// </summary>
@@ -29,8 +46,44 @@ namespace Meringue.Avalonia.Dock.Layout.Internal
                 throw new NotSupportedException($"Unsupported layout version {layout.MajorVersion}.{layout.MinorVersion}");
             }
 
-            DockNodeViewModel root = BuildNode(layout.RootNode);
+            DockNodeViewModel root = BuildViewModelNode(layout.RootNode);
             return new DockHostRootViewModel(root);
+        }
+
+        /// <summary>
+        /// Builds a <see cref="DockLayoutNode"/> for the provided <see cref="DockNodeViewModel"/>.
+        /// </summary>
+        /// <param name="node">The <see cref="DockNodeViewModel"/> to be used.</param>
+        /// <returns>The new <see cref="DockLayoutNode"/>.</returns>
+        private static DockLayoutNode BuildLayoutNode(DockNodeViewModel node)
+        {
+            return node switch
+            {
+                DockSplitNodeViewModel split =>
+                    new DockLayoutSplit
+                    {
+                        Id = split.Id,
+                        Orientation = split.Orientation,
+                        Children = [.. split.Children.Select(BuildLayoutNode)],
+                        Sizes = [.. split.Sizes],
+                    },
+
+                DockTabNodeViewModel tab =>
+                    new DockLayoutTab
+                    {
+                        Id = tab.Id,
+                        SelectedId = tab.Selected?.Id,
+                        Tools = [.. tab.Tabs.Select(
+                            t => new DockLayoutTool
+                            {
+                                Id = t.Id.ToString(),
+                                Header = t.Header,
+                                IsPinned = t.IsPinned,
+                            })],
+                    },
+
+                _ => throw new NotSupportedException($"Unknown node type: {node.GetType().Name}"),
+            };
         }
 
         /// <summary>
@@ -38,7 +91,7 @@ namespace Meringue.Avalonia.Dock.Layout.Internal
         /// </summary>
         /// <param name="layoutNode">The <see cref="DockLayoutNode"/> to be converted to a <see cref="DockNodeViewModel"/>.</param>
         /// <returns>The <see cref="DockNodeViewModel"/> that was built.</returns>
-        private static DockNodeViewModel BuildNode(DockLayoutNode layoutNode)
+        private static DockNodeViewModel BuildViewModelNode(DockLayoutNode layoutNode)
         {
             ArgumentNullException.ThrowIfNull(layoutNode);
             DockNodeViewModel constructedBuildModel;
@@ -58,7 +111,7 @@ namespace Meringue.Avalonia.Dock.Layout.Internal
                     // Split node
                     foreach (DockLayoutNode child in splitLayoutNode.Children)
                     {
-                        split.Children.Add(BuildNode(child));
+                        split.Children.Add(BuildViewModelNode(child));
                     }
                 }
 

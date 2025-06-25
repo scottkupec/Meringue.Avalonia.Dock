@@ -40,19 +40,14 @@ namespace Meringue.Avalonia.Dock.ViewModels
             }
         }
 
-        /// <summary>Gets the <see cref="Tabs"/> that are pinned (visible).</summary>
-        public IEnumerable<DockToolViewModel> PinnedTabs =>
-            this.Tabs.Where(t => t.IsPinned);
-
         /// <summary>
         /// Gets a value indicating whether the current instance has any tabs.
         /// </summary>
         public Boolean HasTabs => this.Tabs.Count != 0;
 
-        /// <summary>
-        /// Gets a value indicating whether a <see cref="TabStrip"/> for switching tabs should be displayed.
-        /// </summary>
-        public Boolean ShouldShowTabStrip => this.Tabs.Count >= 2;
+        /// <summary>Gets the <see cref="Tabs"/> that are pinned (visible).</summary>
+        public IEnumerable<DockToolViewModel> PinnedTabs =>
+            this.Tabs.Where(t => t.IsPinned);
 
         /// <summary>
         /// Gets the currently selected tab.
@@ -60,31 +55,32 @@ namespace Meringue.Avalonia.Dock.ViewModels
         public DockToolViewModel? Selected { get; internal set; }
 
         /// <summary>
+        /// Gets a value indicating whether a <see cref="TabStrip"/> for switching tabs should be displayed.
+        /// </summary>
+        public Boolean ShouldShowTabStrip => this.Tabs.Count >= 2;
+
+        /// <summary>
         /// Called when the item collection has changes.
         /// </summary>
         /// <param name="value">The <see cref="ObservableCollection{T}"/> that changed.</param>
         partial void OnTabsChanged(ObservableCollection<DockToolViewModel> value)
         {
-            // Unsubscribe from previous handler, if any
             if (this.tabsHandler != null && this.tabs != null)
             {
                 this.tabs.CollectionChanged -= this.tabsHandler;
             }
 
-            // Define the new handler
             this.tabsHandler = (_, _) =>
             {
                 this.OnPropertyChanged(nameof(this.HasTabs));
                 this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
             };
 
-            // Subscribe to the new collection
             value.CollectionChanged += this.tabsHandler;
 
-            // Notify initially
-            this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
             this.OnPropertyChanged(nameof(this.HasTabs));
             this.OnPropertyChanged(nameof(this.PinnedTabs));
+            this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
         }
 
         /// <summary>Handles chanes to the tabs collection.</summary>
@@ -145,8 +141,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
         {
             void Handler(Object? s, PropertyChangedEventArgs e)
             {
-                ////System.Diagnostics.Debug.WriteLine($"Got change: {e.PropertyName}");
-
                 if (e.PropertyName == nameof(DockToolViewModel.IsPinned))
                 {
                     this.OnPropertyChanged(nameof(this.PinnedTabs));

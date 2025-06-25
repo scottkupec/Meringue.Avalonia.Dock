@@ -6,7 +6,7 @@ using Avalonia.Data.Converters;
 
 namespace Meringue.Avalonia.Dock.Converters
 {
-    /// <summary>Implements the pin and unpin text handler.</summary>
+    /// <summary>Implements the pin and unpin converter used to display tab pin state..</summary>
     public class PinIconConverter : IValueConverter
     {
         /// <inheritdoc/>
@@ -15,6 +15,6 @@ namespace Meringue.Avalonia.Dock.Converters
 
         /// <inheritdoc/>
         public Object ConvertBack(Object? value, Type targetType, Object? parameter, CultureInfo culture)
-            => throw new NotImplementedException(); //// Binding.DoNothing;
+            => throw new NotImplementedException();
     }
 }

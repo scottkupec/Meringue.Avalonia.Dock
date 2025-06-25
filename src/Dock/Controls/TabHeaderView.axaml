@@ -5,17 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:DataType="viewModels:DockToolViewModel">
 
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
-
+  <Grid ColumnDefinitions="*,Auto">
     <TextBlock Text="{Binding Header}" />
-    <ToggleButton Grid.Column="1"
-                  IsChecked="{Binding IsPinned, Mode=TwoWay}"
+    <ToggleButton Background="Transparent"
                   Content="{Binding IsPinned, Converter={StaticResource PinIconConverter}}"
-                  FontSize="12"
-                  Background="Transparent" />
+                  FontSize="10"
+                  Grid.Column="1"
+                  IsChecked="{Binding IsPinned, Mode=TwoWay}" />
   </Grid>
 </UserControl>

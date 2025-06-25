@@ -5,7 +5,8 @@ using Avalonia.Controls;
 namespace Meringue.Avalonia.Dock.Controls
 {
     /// <summary>
-    /// A dock panel host.
+    /// Represents either a <see cref="DockTabPanel"/> or a <see cref="DockSplitPanel"/> in the
+    /// docking controls tree.
     /// </summary>
     public partial class DockHost : UserControl
     {

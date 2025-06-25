@@ -10,12 +10,11 @@
     <Setter Property="controls:DockLayoutRoot.InsertPolicy" Value="{Binding InsertPolicy}" />
     <Setter Property="Template">
       <ControlTemplate x:DataType="viewModels:DockLayoutRootViewModel">
-        <controls:DockHostRoot
-          x:DataType="viewModels:DockHostRootViewModel"
-          RootNode="{TemplateBinding HostRoot}"
-          DataContext="{Binding HostRoot}"
-          UnpinnedTabs="{Binding UnpinnedTabs}"
-          ShouldShowUnpinnedTabs="{Binding ShouldShowUnpinnedTabs}" />
+        <controls:DockHostRoot x:DataType="viewModels:DockHostRootViewModel"
+                               DataContext="{Binding HostRoot}"
+                               RootNode="{TemplateBinding HostRoot}"
+                               ShouldShowUnpinnedTabs="{Binding ShouldShowUnpinnedTabs}"
+                               UnpinnedTabs="{Binding UnpinnedTabs}" />
       </ControlTemplate>
     </Setter>
   </Style>

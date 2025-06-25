@@ -221,6 +221,7 @@ dotnet_diagnostic.CA1410.severity = error # COM registration methods should be m
 dotnet_diagnostic.CA1415.severity = error # Declare P/Invokes correctly
 dotnet_diagnostic.CA1500.severity = error # Variable names should not match field names
 dotnet_diagnostic.CA1703.severity = error # Resource strings should be spelled correctly
+dotnet_diagnostic.CA1707.severity = none # Identifiers should not contain underscores. ## Used in test names.
 dotnet_diagnostic.CA1711.severity = error # Identifiers should not have incorrect suffix 
 dotnet_diagnostic.CA1715.severity = error # Name generic type parameters correctly.
 dotnet_diagnostic.CA1719.severity = error # Parameter names should not match member names

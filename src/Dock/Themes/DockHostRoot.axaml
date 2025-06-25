@@ -8,14 +8,16 @@
     <Setter Property="Template">
       <ControlTemplate TargetType="controls:DockHostRoot">
         <Grid ColumnDefinitions="Auto,*">
-          <controls:DockHost Grid.Column="1" Content="{TemplateBinding RootNode}" />
           <controls:DockToolStub x:Name="PART_UnpinnedStub"
-                                  DockEdge="Left"
-                                  Grid.Column="0"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Left"
-                                  Margin="0"
-                                  IsVisible="{TemplateBinding ShouldShowUnpinnedTabs}" />
+                                 DockEdge="Left"
+                                 Grid.Column="0"
+                                 HorizontalAlignment="Left"
+                                 IsVisible="{TemplateBinding ShouldShowUnpinnedTabs}"
+                                 VerticalAlignment="Stretch" />
+
+          <controls:DockHost Content="{TemplateBinding RootNode}"
+                             Grid.Column="1" />
+
         </Grid>
       </ControlTemplate>
     </Setter>

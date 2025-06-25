@@ -1,11 +1,11 @@
 ﻿// Copyright (C) Meringue Project Team. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Meringue.Avalonia.Dock.Controls;
 using Meringue.Avalonia.Dock.Layout;
-using Meringue.Avalonia.Dock.Layout.Internal;
 
 namespace Meringue.Avalonia.Dock.ViewModels
 {
@@ -164,7 +164,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <param name="filename">The name of the file that will receive the layout.</param>
         public void SaveLayout(String filename)
         {
-            DockLayout layout = DockLayoutBuilder.Build(this.HostRoot);
+            DockLayout layout = DockLayoutConverter.BuildLayout(this.HostRoot);
             this.LayoutManager.Save(layout, filename);
         }
 
@@ -174,8 +174,31 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <param name="stream">The <see cref="Stream"/> that will receive the layout.</param>
         public void SaveLayout(Stream stream)
         {
-            DockLayout layout = DockLayoutBuilder.Build(this.HostRoot);
+            DockLayout layout = DockLayoutConverter.BuildLayout(this.HostRoot);
             this.LayoutManager.Save(layout, stream);
+        }
+
+        /// <summary>
+        /// Enumerates all of the tools in a <see cref="DockNodeViewModel"/>.
+        /// </summary>
+        /// <param name="hostRoot">The <see cref="DockNodeViewModel"/> to enumerate.</param>
+        /// <returns>The enumeration of <see cref="DockToolViewModel"/>s found.</returns>
+        private static IEnumerable<DockTabNodeViewModel> EnumerateTabViewModels(DockNodeViewModel hostRoot)
+        {
+            if (hostRoot is DockSplitNodeViewModel splitView)
+            {
+                foreach (DockNodeViewModel child in splitView.Children)
+                {
+                    foreach (DockTabNodeViewModel tabView in EnumerateTabViewModels(child))
+                    {
+                        yield return tabView;
+                    }
+                }
+            }
+            else if (hostRoot is DockTabNodeViewModel tabView)
+            {
+                yield return tabView;
+            }
         }
 
         /// <summary>
@@ -187,10 +210,30 @@ namespace Meringue.Avalonia.Dock.ViewModels
         {
             // TODO: Review for leaking resources.
             // TODO: Handle merging tools from existing DockHostRootViewModel into the newly built DockHostRootViewModel.
-            DockHostRootViewModel root = DockLayoutApplier.BuildViewModel(layout);
+            DockHostRootViewModel root = DockLayoutConverter.BuildViewModel(layout);
+            DockHostRootViewModel rootGoingAway = this.HostRoot;
+
             this.HostRoot = root;
             this.HostRoot.UnpinnedTabs.Clear();
             this.HostRoot.HookPinnedChangeListeners(root.HostRoot);
+
+            foreach (DockTabNodeViewModel tabView in EnumerateTabViewModels(rootGoingAway.HostRoot))
+            {
+                foreach (DockToolViewModel tool in tabView.Tabs)
+                {
+                    DockToolViewModel? alreadyInsertedTool = this.HostRoot.HostRoot.FindTool(tool.Id);
+
+                    if (alreadyInsertedTool is not null)
+                    {
+                        alreadyInsertedTool.Context = tool.Context;
+                    }
+                    else
+                    {
+                        _ = this.CreateOrUpdateTool(tool.Id, tool.Header, tool.Context!, tabView.Id);
+                    }
+                }
+            }
+
             return true;
         }
     }

@@ -9,6 +9,7 @@
       <ControlTemplate TargetType="controls:DockToolStub">
         <Border Background="Transparent">
           <ScrollViewer VerticalScrollBarVisibility="Auto">
+
             <ItemsControl ItemsSource="{TemplateBinding Tabs}">
               <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -23,15 +24,16 @@
                       <RotateTransform Angle="-90" />
                     </LayoutTransformControl.LayoutTransform>
 
-                    <ToggleButton IsChecked="{Binding IsPinned, Mode=TwoWay}"
-                                  FontSize="12"
+                    <ToggleButton controls:FlyoutHelper.ShowFlyoutOnHover="True"
                                   Background="SlateGray"
-                                  controls:FlyoutHelper.ShowFlyoutOnHover="True">
+                                  FontSize="12"
+                                  IsChecked="{Binding IsPinned, Mode=TwoWay}">
 
                       <FlyoutBase.AttachedFlyout>
-                        <Flyout Placement="Right"
-                                ShowMode="TransientWithDismissOnPointerMoveAway"
-                                OverlayDismissEventPassThrough="True">
+                        <Flyout OverlayDismissEventPassThrough="True"
+                                Placement="Right"
+                                ShowMode="TransientWithDismissOnPointerMoveAway">
+
                           <ContentControl Content="{Binding Context}">
                             <ContentControl.ContentTemplate>
                               <DataTemplate>
@@ -42,9 +44,9 @@
                         </Flyout>
                       </FlyoutBase.AttachedFlyout>
 
-                      <StackPanel Orientation="Horizontal"
-                                  Spacing="2"
-                                  HorizontalAlignment="Center">
+                      <StackPanel HorizontalAlignment="Center"
+                                  Orientation="Horizontal"
+                                  Spacing="2">
                         <TextBlock Text="{Binding IsPinned, Converter={StaticResource PinIconConverter}}" />
                         <TextBlock Text="{Binding Header}" />
                       </StackPanel>

@@ -69,25 +69,6 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Updates the current target being adorned.
-        /// </summary>
-        /// <param name="adornedElement">The control being adorned.</param>
-        /// <param name="pointerPosition">The new pointer location.</param>
-        public void UpdateTarget(Control adornedElement, Point pointerPosition)
-        {
-            this.AdornedElement = adornedElement ?? throw new ArgumentNullException(nameof(adornedElement));
-
-            Rect adornedBounds = adornedElement.Bounds;
-            Point? topLeft = adornedElement.TranslatePoint(new Point(0, 0), this);
-            if (topLeft != null)
-            {
-                this.targetBounds = new Rect(topLeft.Value, adornedBounds.Size);
-            }
-
-            this.UpdatePointer(pointerPosition);
-        }
-
-        /// <summary>
         /// Updates the current pointer location relative.
         /// </summary>
         /// <param name="pointerPosition">The new pointer location.</param>
@@ -143,6 +124,25 @@ namespace Meringue.Avalonia.Dock.Controls
                 this.HoveredZone = newHoveredZone;
                 this.InvalidateVisual();
             }
+        }
+
+        /// <summary>
+        /// Updates the current target being adorned.
+        /// </summary>
+        /// <param name="adornedElement">The control being adorned.</param>
+        /// <param name="pointerPosition">The new pointer location.</param>
+        public void UpdateTarget(Control adornedElement, Point pointerPosition)
+        {
+            this.AdornedElement = adornedElement ?? throw new ArgumentNullException(nameof(adornedElement));
+
+            Rect adornedBounds = adornedElement.Bounds;
+            Point? topLeft = adornedElement.TranslatePoint(new Point(0, 0), this);
+            if (topLeft != null)
+            {
+                this.targetBounds = new Rect(topLeft.Value, adornedBounds.Size);
+            }
+
+            this.UpdatePointer(pointerPosition);
         }
     }
 }

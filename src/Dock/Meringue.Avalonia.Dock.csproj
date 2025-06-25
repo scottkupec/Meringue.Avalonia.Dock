@@ -1,9 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <Authors>The Meringue.Avalonia.Dock Team</Authors>
+    <Description>A minimal docking system for Avalonia.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
     <EnableAsyncStackTraces Condition="'$(Configuration)' == 'Debug'">true</EnableAsyncStackTraces>
   </PropertyGroup>
 
@@ -18,7 +22,7 @@
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <!-- Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="System.Reactive" />

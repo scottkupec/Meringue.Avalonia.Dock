@@ -18,29 +18,6 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.RegisterAttached<Control, Control, DockHostRootViewModel?>("RootNode");
 
         /// <summary>
-        /// Sets the root <see cref="DockHostRootViewModel"/> for the given <see cref="Control"/>.
-        /// </summary>
-        /// <param name="element">The <see cref="Control"/> the root is to be set for.</param>
-        /// <param name="value">The root to set.</param>
-        public static void SetRootNode(Control element, DockHostRootViewModel? value)
-        {
-            if (element is not null)
-            {
-                _ = element.SetValue(RootNodeProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the root <see cref="DockHostRootViewModel"/> for the given <see cref="Control"/>.
-        /// </summary>
-        /// <param name="element">The <see cref="Control"/> for which the root is being retrieved.</param>
-        /// <returns>The <see cref="DockHostRootViewModel"/> found or null if no such root exists.</returns>
-        public static DockHostRootViewModel? GetRootNode(Control element)
-        {
-            return element?.GetValue(RootNodeProperty);
-        }
-
-        /// <summary>
         /// Walks up the visual tree to find the nearest DockHostRootViewModel, if not set on this control.
         /// </summary>
         /// <param name="startingFrom">The <see cref="Control"/> to start from.</param>
@@ -56,12 +33,33 @@ namespace Meringue.Avalonia.Dock.Controls
                     return root;
                 }
 
-                ////StyledElement? parent = startingFrom.Parent;
-                ////System.Diagnostics.Debug.WriteLine($"Parent of {startingFrom} is {parent} with data context {parent?.DataContext}.");
                 startingFrom = startingFrom.Parent as Control;
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets the root <see cref="DockHostRootViewModel"/> for the given <see cref="Control"/>.
+        /// </summary>
+        /// <param name="element">The <see cref="Control"/> for which the root is being retrieved.</param>
+        /// <returns>The <see cref="DockHostRootViewModel"/> found or null if no such root exists.</returns>
+        public static DockHostRootViewModel? GetRootNode(Control element)
+        {
+            return element?.GetValue(RootNodeProperty);
+        }
+
+        /// <summary>
+        /// Sets the root <see cref="DockHostRootViewModel"/> for the given <see cref="Control"/>.
+        /// </summary>
+        /// <param name="element">The <see cref="Control"/> the root is to be set for.</param>
+        /// <param name="value">The root to set.</param>
+        public static void SetRootNode(Control element, DockHostRootViewModel? value)
+        {
+            if (element is not null)
+            {
+                _ = element.SetValue(RootNodeProperty, value);
+            }
         }
     }
 }

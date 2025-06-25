@@ -25,8 +25,8 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <summary>
         /// Defines the style property for the <see cref="RootNode"/> member.
         /// </summary>
-        public static readonly StyledProperty<DockSplitNodeViewModel?> RootNodeProperty =
-            AvaloniaProperty.Register<DockHostRoot, DockSplitNodeViewModel?>(nameof(RootNode));
+        public static readonly StyledProperty<DockHostRootViewModel?> RootNodeProperty =
+            AvaloniaProperty.Register<DockHostRoot, DockHostRootViewModel?>(nameof(RootNode));
 
         /// <summary>
         /// Defines the style property for the <see cref="UnpinnedTabs"/> member.
@@ -55,7 +55,7 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <summary>
         /// Gets or sets the root <see cref="DockNodeViewModel"/>.
         /// </summary>
-        public DockSplitNodeViewModel? RootNode
+        public DockHostRootViewModel? RootNode
         {
             get => this.GetValue(RootNodeProperty);
             set => this.SetValue(RootNodeProperty, value);

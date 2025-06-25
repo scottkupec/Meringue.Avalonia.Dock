@@ -14,7 +14,7 @@ namespace Meringue.Avalonia.Dock.Controls
     /// <summary>
     /// Displays stub headers for unpinned docked tools along a screen edge.
     /// </summary>
-    public class DockToolStub : TemplatedControl
+    internal class DockToolStub : TemplatedControl
     {
         /// <summary>
         /// Defines the style property for the <see cref="Tabs"/> member.

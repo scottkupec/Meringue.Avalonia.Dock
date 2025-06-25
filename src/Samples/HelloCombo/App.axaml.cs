@@ -20,7 +20,7 @@ namespace HelloCombo
             {
                 if (!System.Diagnostics.Debugger.IsAttached)
                 {
-                    _ = System.Diagnostics.Debugger.Launch(); // Prompts to attach debugger
+                    _ = System.Diagnostics.Debugger.Launch();
                 }
             };
 #endif

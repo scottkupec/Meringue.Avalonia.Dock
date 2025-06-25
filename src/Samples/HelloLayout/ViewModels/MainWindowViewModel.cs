@@ -32,10 +32,22 @@ namespace HelloLayout.ViewModels
         private static DockLayoutRootViewModel BuildLayoutRoot()
         {
             DockLayoutRootViewModel layout = new();
-            DockSplitNodeViewModel split = new();
+            DockSplitNodeViewModel split = new()
+            {
+                Id = "root",
+            };
+
+            DockTabNodeViewModel tab = new()
+            {
+                Id = "center",
+            };
+
+            split.Children.Add(tab);
+
             layout.HostRoot = new DockHostRootViewModel(split);
-            _ = layout.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Hello" });
-            _ = layout.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Layout" });
+            _ = layout.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Hello" }, "center");
+            _ = layout.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Layout" }, "center");
+            ////_ = layout.CreateOrUpdateTool("3", "Extra Panel", new TextBlock { Text = "Layout" }, "center");
 
             return layout;
         }
@@ -45,9 +57,6 @@ namespace HelloLayout.ViewModels
         private void LoadLayout()
         {
             _ = this.LayoutRoot.LoadLayout("layout.json");
-
-            _ = this.LayoutRoot.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Updated Hello" });
-            _ = this.LayoutRoot.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Updated Layout" });
         }
 
         /// <summary>Save the layout.</summary>
