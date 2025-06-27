@@ -20,7 +20,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <returns>The new <see cref="DockLayout"/>.</returns>
         public static DockLayout BuildLayout(DockHostRootViewModel hostRoot)
         {
-            ArgumentNullException.ThrowIfNull(hostRoot);
+            TargetFrameworkHelper.ThrowIfArgumentNull(hostRoot);
 
             return new DockLayout
             {
@@ -37,8 +37,8 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <returns>The view model built.</returns>
         public static DockHostRootViewModel BuildViewModel(DockLayout layout)
         {
-            ArgumentNullException.ThrowIfNull(layout);
-            ArgumentNullException.ThrowIfNull(layout.RootNode);
+            TargetFrameworkHelper.ThrowIfArgumentNull(layout);
+            TargetFrameworkHelper.ThrowIfArgumentNull(layout.RootNode);
 
             // Validate version
             if (layout.MajorVersion != 1)
@@ -93,7 +93,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <returns>The <see cref="DockNodeViewModel"/> that was built.</returns>
         private static DockNodeViewModel BuildViewModelNode(DockLayoutNode layoutNode)
         {
-            ArgumentNullException.ThrowIfNull(layoutNode);
+            TargetFrameworkHelper.ThrowIfArgumentNull(layoutNode);
             DockNodeViewModel constructedBuildModel;
 
             if (layoutNode is DockLayoutSplit splitLayoutNode)

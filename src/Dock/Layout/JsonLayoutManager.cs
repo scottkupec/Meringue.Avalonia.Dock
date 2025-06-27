@@ -32,7 +32,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <inheritdoc/>
         public DockLayout Load(Stream input)
         {
-            ArgumentNullException.ThrowIfNull(input);
+            TargetFrameworkHelper.ThrowIfArgumentNull(input);
 
             DockLayout? layout = JsonSerializer.Deserialize<DockLayout>(input, Options);
             return layout ?? throw new InvalidDataException("Could not deserialize DockLayout.");
@@ -41,7 +41,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <inheritdoc/>
         public void Save(DockLayout layout, String filename)
         {
-            ArgumentNullException.ThrowIfNull(layout);
+            TargetFrameworkHelper.ThrowIfArgumentNull(layout);
 
             using FileStream stream = File.Create(filename);
             this.Save(layout, stream);
@@ -50,8 +50,8 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <inheritdoc/>
         public void Save(DockLayout layout, Stream output)
         {
-            ArgumentNullException.ThrowIfNull(layout);
-            ArgumentNullException.ThrowIfNull(output);
+            TargetFrameworkHelper.ThrowIfArgumentNull(layout);
+            TargetFrameworkHelper.ThrowIfArgumentNull(output);
 
             JsonSerializer.Serialize(output, layout, Options);
         }

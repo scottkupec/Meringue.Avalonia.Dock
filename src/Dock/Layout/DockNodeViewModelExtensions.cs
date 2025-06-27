@@ -19,7 +19,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <returns>The matching <see cref="DockToolViewModel"/>, or null if not found.</returns>
         public static DockToolViewModel? FindTool(this DockNodeViewModel rootNode, String id)
         {
-            ArgumentNullException.ThrowIfNull(rootNode);
+            TargetFrameworkHelper.ThrowIfArgumentNull(rootNode);
 
             if (rootNode is DockTabNodeViewModel tabNode)
             {
@@ -48,7 +48,7 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <returns>The matching <see cref="DockNodeViewModel"/>, or null if not found.</returns>
         public static DockNodeViewModel? FindNode(this DockNodeViewModel rootNode, String id)
         {
-            ArgumentNullException.ThrowIfNull(rootNode);
+            TargetFrameworkHelper.ThrowIfArgumentNull(rootNode);
 
             if (rootNode.Id == id)
             {

@@ -77,7 +77,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
 
                     if (!String.IsNullOrEmpty(defaultParentId))
                     {
-                        targetNode = rootNode.FindNode(defaultParentId);
+                        targetNode = rootNode.FindNode(defaultParentId!);
                     }
 
                     if (targetNode is null)

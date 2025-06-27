@@ -2,7 +2,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.5.1">
   <PropertyGroup>
     <ProjectGroupName>Meringue.Avalonia</ProjectGroupName>
-    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <Import Project="..\build\environment\BuildEnvironment.props"/>

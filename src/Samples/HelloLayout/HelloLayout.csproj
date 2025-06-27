@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <AssemblyVersion>0.0.1</AssemblyVersion>
+    <TargetFramework>net9.0</TargetFramework>    
   </PropertyGroup>
 
   <PropertyGroup>

@@ -370,9 +370,9 @@ namespace Meringue.Avalonia.Dock.Controls
                         : Orientation.Vertical;
 
                     DropZoneLocation dropLocation = this.dropAdorner?.HoveredZone ?? DropZoneLocation.Center;
-                    Int32 targetIndex = parentSplit.Children.IndexOf(targetNode);
+                    Int32 targetIndex = parentSplit!.Children.IndexOf(targetNode);
 
-                    if (parentSplit!.Orientation == neededOrientation)
+                    if (parentSplit.Orientation == neededOrientation)
                     {
                         // Add a new DockTabPanel to the current parent to the left or right of the current DockTabPanel then
                         // move draggedTab to that DockTabPanel.

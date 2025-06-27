@@ -6,18 +6,17 @@
     <DependencyInjectionVersion>9.0.4</DependencyInjectionVersion>
   </PropertyGroup>
 
-  <ItemGroup> <!-- UI components -->
+  <ItemGroup>
     <PackageVersion Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-  </ItemGroup>
-
-  <ItemGroup> <!-- Everything else -->
+    <PackageVersion Include="Nullable" Version="1.3.1" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
     <PackageVersion Include="System.Reactive.Linq" Version="6.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.6" />
   </ItemGroup>
     
   <!-- See also CodeAnalysis.targets because CPM doesn't cascade correctly. -->

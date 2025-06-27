@@ -24,15 +24,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
         [ObservableProperty]
         private ObservableCollection<DockToolViewModel> tabs = [];
 
-        /// <summary>The <see cref="NotifyCollectionChangedEventHandler"/> for the current <see cref="tabs"/>.</summary>
-        private NotifyCollectionChangedEventHandler? tabsHandler;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DockTabNodeViewModel"/> class.
         /// </summary>
         public DockTabNodeViewModel()
         {
-            this.tabs.CollectionChanged += this.OnTabsCollectionChanged;
+            this.tabs.CollectionChanged += this.OnTabsItemsChanged;
 
             foreach (DockToolViewModel tab in this.tabs)
             {
@@ -60,37 +57,20 @@ namespace Meringue.Avalonia.Dock.ViewModels
         public Boolean ShouldShowTabStrip => this.Tabs.Count >= 2;
 
         /// <summary>
-        /// Called when the item collection has changes.
+        /// Called when the entire <see cref="Tabs"/> collection is replaced.
         /// </summary>
-        /// <param name="value">The <see cref="ObservableCollection{T}"/> that changed.</param>
-        partial void OnTabsChanged(ObservableCollection<DockToolViewModel> value)
-        {
-            if (this.tabsHandler != null && this.tabs != null)
-            {
-                this.tabs.CollectionChanged -= this.tabsHandler;
-            }
-
-            this.tabsHandler = (_, _) =>
-            {
-                this.OnPropertyChanged(nameof(this.HasTabs));
-                this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
-            };
-
-            value.CollectionChanged += this.tabsHandler;
-
-            this.OnPropertyChanged(nameof(this.HasTabs));
-            this.OnPropertyChanged(nameof(this.PinnedTabs));
-            this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
-        }
-
-        /// <summary>Handles chanes to the tabs collection.</summary>
         /// <param name="oldValue">The tabs previously in the collection.</param>
         /// <param name="newValue">The tabs now in the collection.</param>
         partial void OnTabsChanged(ObservableCollection<DockToolViewModel>? oldValue, ObservableCollection<DockToolViewModel>? newValue)
         {
+            if (ReferenceEquals(oldValue, newValue))
+            {
+                return;
+            }
+
             if (oldValue != null)
             {
-                oldValue.CollectionChanged -= this.OnTabsCollectionChanged;
+                oldValue.CollectionChanged -= this.OnTabsItemsChanged;
 
                 foreach (DockToolViewModel tab in oldValue)
                 {
@@ -100,7 +80,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
 
             if (newValue != null)
             {
-                newValue.CollectionChanged += this.OnTabsCollectionChanged;
+                newValue.CollectionChanged += this.OnTabsItemsChanged;
 
                 foreach (DockToolViewModel tab in newValue)
                 {
@@ -108,31 +88,9 @@ namespace Meringue.Avalonia.Dock.ViewModels
                 }
             }
 
-            this.OnPropertyChanged(nameof(PinnedTabs));
-        }
-
-        /// <summary>Called when the entire collection is being replaced.</summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
-        private void OnTabsCollectionChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
-        {
-            if (eventArgs.OldItems != null)
-            {
-                foreach (DockToolViewModel tab in eventArgs.OldItems)
-                {
-                    this.DetachPinnedHandler(tab);
-                }
-            }
-
-            if (eventArgs.NewItems != null)
-            {
-                foreach (DockToolViewModel tab in eventArgs.NewItems)
-                {
-                    this.AttachPinnedHandler(tab);
-                }
-            }
-
+            this.OnPropertyChanged(nameof(this.HasTabs));
             this.OnPropertyChanged(nameof(this.PinnedTabs));
+            this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
         }
 
         /// <summary>Adds a handler for a <see cref="DockToolViewModel"/> that is being added.</summary>
@@ -159,6 +117,56 @@ namespace Meringue.Avalonia.Dock.ViewModels
             {
                 ((INotifyPropertyChanged)tab).PropertyChanged -= handler;
                 _ = this.pinnedHandlers.Remove(tab);
+            }
+        }
+
+        /// <summary>
+        /// Called when the <see cref="Tabs"/> collection is added to or removed from.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
+        private void OnTabsItemsChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
+        {
+            // eventArgs.OldItems is really items being removed, not the full old items collection.
+            // eventArgs.NewItems is really items being added, not the full new items collection.
+            // this.Tabs has already been updated to include eventArgs.NewItems and not include eventArgs.OldItems.
+
+            if (eventArgs.OldItems != null)
+            {
+                foreach (DockToolViewModel tab in eventArgs.OldItems)
+                {
+                    this.DetachPinnedHandler(tab);
+                }
+            }
+
+            if (eventArgs.NewItems != null)
+            {
+                foreach (DockToolViewModel tab in eventArgs.NewItems)
+                {
+                    this.AttachPinnedHandler(tab);
+                }
+            }
+
+            List<DockToolViewModel> newPinned = [.. this.PinnedTabs];
+
+            Boolean hadTabs = this.Tabs.Count - (eventArgs.NewItems?.Count ?? 0) + (eventArgs.OldItems?.Count ?? 0) > 0;
+            if (hadTabs != this.HasTabs)
+            {
+                this.OnPropertyChanged(nameof(this.HasTabs));
+            }
+
+            Boolean hadStrip = this.Tabs.Count - (eventArgs.NewItems?.Count ?? 0) + (eventArgs.OldItems?.Count ?? 0) >= 2;
+            if (hadStrip != this.ShouldShowTabStrip)
+            {
+                this.OnPropertyChanged(nameof(this.ShouldShowTabStrip));
+            }
+
+            IEnumerable<DockToolViewModel> oldPinnedRemoved = eventArgs.OldItems?.OfType<DockToolViewModel>().Where(tool => tool.IsPinned) ?? [];
+            Boolean pinnedChanged = oldPinnedRemoved.Any() || (eventArgs.NewItems?.OfType<DockToolViewModel>().Any(tool => tool.IsPinned) ?? false);
+
+            if (pinnedChanged)
+            {
+                this.OnPropertyChanged(nameof(this.PinnedTabs));
             }
         }
     }

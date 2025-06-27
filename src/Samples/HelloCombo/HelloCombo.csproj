@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <AssemblyVersion>0.0.1</AssemblyVersion>
+    <LangVersion>latest</LangVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

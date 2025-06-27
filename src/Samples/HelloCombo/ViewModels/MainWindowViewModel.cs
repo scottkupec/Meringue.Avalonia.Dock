@@ -69,7 +69,7 @@ namespace HelloCombo.ViewModels
             DockSplitNodeViewModel split = new();
             layout.HostRoot = new DockHostRootViewModel(split);
             _ = layout.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Hello" });
-            _ = layout.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Layout" });
+            _ = layout.CreateOrUpdateTool("3", "Layout Panel", new TextBlock { Text = "Layout" });
 
             return layout;
         }
