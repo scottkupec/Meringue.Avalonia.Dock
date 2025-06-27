@@ -4,11 +4,9 @@ using System;
 using System.IO;
 using System.Text;
 using Meringue.Avalonia.Dock.Layout;
-using Meringue.Avalonia.Dock.ViewModels;
-using Moq;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Tests.ViewModels
+namespace Meringue.Avalonia.Dock.ViewModels.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
@@ -16,30 +14,37 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
     internal sealed class DockLayoutRootViewModelTests
     {
         [Test]
-        public void ApplyLayout_MergesContextCorrectly()
+        public void ApplyLayout_Retains_ToolContext()
         {
-            DockLayoutRootViewModel viewModel = new();
-            _ = viewModel.CreateOrUpdateTool("merge-test", "Header", "OldContext");
+            String expectedContext = "CurrentContext";
+            String toolId = "merge-test";
 
-            DockLayout layout = DockLayoutConverter.BuildLayout(viewModel.HostRoot);
+            // Build a layout root to apply the saved layout to.
+            DockLayoutRootViewModel activeViewModel = new();
+            _ = activeViewModel.CreateOrUpdateTool(toolId, "Header", "OriginalContext");
 
-            // Create a dummy DockLayoutRootViewModel to test if updated
-            DockHostRootViewModel updatedRoot = DockLayoutConverter.BuildViewModel(layout);
-            DockToolViewModel? tool = updatedRoot.HostRoot.FindTool("merge-test");
-            tool!.Context = "NewContext";
+            // Save the layout.
+            using MemoryStream stream = new();
+            activeViewModel.SaveLayout(stream);
+            stream.Position = 0;
 
-            // Patch layout manager to return updatedRoot
-            Mock<IDockLayoutManager> mockManager = new();
-            mockManager.Setup(x => x.Load(It.IsAny<Stream>())).Returns(layout);
-            viewModel.LayoutManager = mockManager.Object;
+            // Change the tools context.
+            DockToolViewModel? tool = activeViewModel.HostRoot.HostRoot.FindTool(toolId);
+            tool!.Context = expectedContext;
 
-            using MemoryStream ms = new();
-            viewModel.SaveLayout(ms);
-            ms.Position = 0;
-            _ = viewModel.LoadLayout(ms);
+            // Apply the saved layout.
+            Assert.That(
+                activeViewModel.LoadLayout(stream),
+                Is.True,
+                "This test requires the saved layout to successfully be applied.");
 
-            DockToolViewModel? finalTool = viewModel.HostRoot.HostRoot.FindTool("merge-test");
-            Assert.That("NewContext", Is.EqualTo(finalTool!.Context));
+            // Get the tool again.
+            DockToolViewModel? finalTool = activeViewModel.HostRoot.HostRoot.FindTool(toolId);
+
+            Assert.That(
+                finalTool!.Context,
+                Is.EqualTo(expectedContext),
+                $"The {nameof(DockToolViewModel.Context)} of a tool, after applying a layout, should not change.");
         }
 
         [Test]
@@ -47,9 +52,20 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
         {
             DockLayoutRootViewModel viewModel = new();
 
-            Assert.That(viewModel.HostRoot, Is.Not.Null);
-            Assert.That(viewModel.LayoutManager, Is.Not.Null);
-            Assert.That(viewModel.LayoutManager, Is.InstanceOf<JsonLayoutManager>());
+            Assert.That(
+                viewModel.HostRoot,
+                Is.Not.Null,
+                $"{nameof(DockLayoutRootViewModel.HostRoot)} should be initialized correctly.");
+
+            Assert.That(
+                viewModel.LayoutManager,
+                Is.Not.Null,
+                $"{nameof(DockLayoutRootViewModel.LayoutManager)} should be initialized correctly.");
+
+            Assert.That(
+                viewModel.LayoutManager,
+                Is.InstanceOf<JsonLayoutManager>(),
+                $"{nameof(DockLayoutRootViewModel.LayoutManager)} should default to {nameof(JsonLayoutManager)}.");
         }
 
         [Test]
@@ -59,9 +75,20 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
 
             DockToolViewModel? tool = viewModel.CreateOrUpdateTool("tool1", "Header", new Object());
 
-            Assert.That(tool, Is.Not.Null);
-            Assert.That("tool1", Is.EqualTo(tool!.Id));
-            Assert.That("Header", Is.EqualTo(tool.Header));
+            Assert.That(
+                tool,
+                Is.Not.Null,
+                $"{nameof(DockLayoutRootViewModel.CreateOrUpdateTool)} should insert a valid tool.");
+
+            Assert.That(
+                "tool1",
+                Is.EqualTo(tool!.Id),
+                $"{nameof(DockLayoutRootViewModel.CreateOrUpdateTool)} should use the provided is.");
+
+            Assert.That(
+                "Header",
+                Is.EqualTo(tool.Header),
+                $"{nameof(DockLayoutRootViewModel.CreateOrUpdateTool)} should use the provided header.");
         }
 
         [Test]
@@ -73,7 +100,8 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
             };
 
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => viewModel.CreateOrUpdateTool("tool1", "Header", new Object(), "MissingParent"));
+                () => viewModel.CreateOrUpdateTool("tool1", "Header", new Object(), "MissingParent"),
+                $"{nameof(DockLayoutRootViewModel.CreateOrUpdateTool)} should throw if the parent is missing and the policy is {DockInsertPolicy.Error}.");
         }
 
         [Test]
@@ -137,7 +165,10 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
             {
                 viewModel.LayoutManager.Save(layout, tempFile);
                 Boolean result = viewModel.LoadLayout(tempFile);
-                Assert.That(result, Is.True);
+                Assert.That(
+                    result,
+                    Is.True,
+                    "Loading a valid layout should report success.");
             }
             finally
             {
@@ -151,13 +182,16 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
             DockLayoutRootViewModel viewModel = new();
             DockLayout layout = DockLayoutConverter.BuildLayout(viewModel.HostRoot);
 
-            using MemoryStream ms = new();
-            viewModel.LayoutManager.Save(layout, ms);
-            ms.Position = 0;
+            using MemoryStream stream = new();
+            viewModel.LayoutManager.Save(layout, stream);
+            stream.Position = 0;
 
-            Boolean result = viewModel.LoadLayout(ms);
+            Boolean result = viewModel.LoadLayout(stream);
 
-            Assert.That(result, Is.True);
+            Assert.That(
+                result,
+                Is.True,
+                "Loading a valid layout should report success.");
         }
 
         [Test]
@@ -170,8 +204,13 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
             try
             {
                 viewModel.SaveLayout(tempFile);
+
                 String content = File.ReadAllText(tempFile);
-                Assert.That(content, Does.Contain("rootNode"));
+                // CONSIDER: More through validation instead of just sanity testing the result.
+                Assert.That(
+                    content,
+                    Does.Contain("rootNode"),
+                    "The serialized should contain a root node.");
             }
             finally
             {
@@ -188,7 +227,12 @@ namespace Meringue.Avalonia.Dock.Tests.ViewModels
             viewModel.SaveLayout(stream);
 
             String json = Encoding.UTF8.GetString(stream.ToArray());
-            Assert.That(json, Does.Contain("rootNode"));
+
+            // CONSIDER: More through validation instead of just sanity testing the result.
+            Assert.That(
+                json,
+                Does.Contain("rootNode"),
+                "The serialized should contain a root node.");
         }
 
         private sealed class InvalidNode : DockNodeViewModel

@@ -1,10 +1,9 @@
 ﻿// Copyright (C) Meringue Project Team. All rights reserved.
 
 using Avalonia.Layout;
-using Meringue.Avalonia.Dock.ViewModels;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Tests.ViewModels
+namespace Meringue.Avalonia.Dock.ViewModels.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]

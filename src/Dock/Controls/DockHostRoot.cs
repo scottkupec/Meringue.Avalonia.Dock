@@ -90,9 +90,9 @@ namespace Meringue.Avalonia.Dock.Controls
                 }
             }
 
-            if (this.DataContext is DockHostRootViewModel vm)
+            if (this.DataContext is DockHostRootViewModel viewModel)
             {
-                DockContext.SetRootNode(this, vm);
+                DockContext.SetRootNode(this, viewModel);
             }
         }
 

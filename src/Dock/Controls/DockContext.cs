@@ -12,7 +12,7 @@ namespace Meringue.Avalonia.Dock.Controls
     public static class DockContext
     {
         /// <summary>
-        /// Defines the name of f the <see cref="AttachedProperty{TValue}"/> used for the root node.
+        /// Defines the name of the <see cref="AttachedProperty{TValue}"/> used for marking the root node.
         /// </summary>
         public static readonly AttachedProperty<DockHostRootViewModel?> RootNodeProperty =
             AvaloniaProperty.RegisterAttached<Control, Control, DockHostRootViewModel?>("RootNode");

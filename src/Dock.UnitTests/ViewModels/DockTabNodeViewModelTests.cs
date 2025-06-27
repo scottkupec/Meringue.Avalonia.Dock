@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Meringue.Avalonia.Dock.ViewModels;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Tests.ViewModels
+namespace Meringue.Avalonia.Dock.ViewModels.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]

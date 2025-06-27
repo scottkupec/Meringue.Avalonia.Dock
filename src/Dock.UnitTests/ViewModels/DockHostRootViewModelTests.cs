@@ -3,10 +3,9 @@
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Meringue.Avalonia.Dock.ViewModels;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Tests
+namespace Meringue.Avalonia.Dock.ViewModels.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
