@@ -19,13 +19,13 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <summary>
         /// Gets or sets the list of child nodes within the split.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Settable for serialization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Settable to simplify (de)serialization code.")]
         public List<DockLayoutNode> Children { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the list of child nodes within the split.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Settable for serialization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Settable to simplify (de)serialization code.")]
         public List<Double> Sizes { get; set; } = [];
     }
 }

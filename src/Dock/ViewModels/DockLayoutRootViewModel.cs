@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Meringue.Avalonia.Dock.Controls;
@@ -10,41 +11,78 @@ using Meringue.Avalonia.Dock.Layout;
 namespace Meringue.Avalonia.Dock.ViewModels
 {
     /// <summary>
-    /// View model for use with DockLayoutRoot controls.
+    /// Defines the view model for use with <see cref="DockLayoutRoot"/>.
     /// </summary>
     public partial class DockLayoutRootViewModel : ObservableObject
     {
         /// <summary>
-        /// Gets or sets the <see cref="DockInsertPolicy"/> to be used.
+        /// Gets or sets the <see cref="DockHostRootViewModel"/> being managed.
+        /// </summary>
+        // TODO: Ensure this isn't visible at the wrong level. We need to access it to load layouts,
+        //       but it isn't intended for direct caller interaction since this is exactly what this
+        //       wrapper provides an API to manange.
+        ////[ObservableProperty]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private DockHostRootViewModel hostRoot;
+
+        /// <summary>
+        /// Gets or sets the <see cref="DockInsertPolicy"/> to be used when adding <see cref="DockToolViewModel"/>s that
+        /// are not present in the recorded layout.
         /// </summary>
         [ObservableProperty]
         private DockInsertPolicy insertPolicy = DockInsertPolicy.CreateLast;
 
         /// <summary>
-        /// Gets or sets the root of the dock layout.
+        /// Initializes a new instance of the <see cref="DockLayoutRootViewModel"/> class.
         /// </summary>
-        [ObservableProperty]
-        private DockHostRootViewModel hostRoot;
+        public DockLayoutRootViewModel()
+            : this(null!)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DockLayoutRootViewModel"/> class.
         /// </summary>
-        public DockLayoutRootViewModel()
+        /// <param name="panels">The names of the top-level split panels to pre-create.</param>
+        public DockLayoutRootViewModel(params String[] panels)
         {
-            this.HostRoot = new DockHostRootViewModel(
-                new DockSplitNodeViewModel
+            DockSplitNodeViewModel split = new()
+            {
+                Orientation = global::Avalonia.Layout.Orientation.Horizontal,
+            };
+
+            if (panels is not null)
+            {
+                foreach (String panelName in panels)
                 {
-                    Orientation = global::Avalonia.Layout.Orientation.Horizontal,
-                });
+                    split.Children.Add(
+                        new DockTabNodeViewModel()
+                        {
+                            Id = panelName,
+                        });
+                }
+            }
+
+            this.hostRoot = new DockHostRootViewModel(split);
 
             this.LayoutManager = new JsonLayoutManager();
         }
 
         /// <summary>
+        /// Gets the <see cref="DockHostRootViewModel"/> being managed.
+        /// </summary>
+        internal DockHostRootViewModel HostRoot
+        {
+            get => this.hostRoot;
+
+            private set => this.SetProperty(ref this.hostRoot, value);
+        }
+
+        /// <summary>
         /// Gets or sets the layout manager responsible for loading and saving layouts.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "May be overridden in AXAML.")]
-        public IDockLayoutManager LayoutManager { get; set; }
+        // TODO: Review accessibilty modifiers.
+        protected internal IDockLayoutManager LayoutManager { get; set; }
 
         /// <summary>
         /// Adds or updates a tool in the layout.
@@ -58,7 +96,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// the <see cref="InsertPolicy"/> property.
         /// </param>
         /// <returns>The <see cref="DockTool"/> created or updated.</returns>
-        public DockToolViewModel? CreateOrUpdateTool(String id, String? header, Object context, String? defaultParentId = null)
+        public virtual DockToolViewModel? CreateOrUpdateTool(String id, String? header, Object context, String? defaultParentId = null)
         {
             if (String.IsNullOrWhiteSpace(id))
             {
@@ -179,10 +217,10 @@ namespace Meringue.Avalonia.Dock.ViewModels
         }
 
         /// <summary>
-        /// Enumerates all of the tools in a <see cref="DockNodeViewModel"/>.
+        /// Enumerates all of the <see cref="DockTabNodeViewModel"/> in a <see cref="DockNodeViewModel"/>.
         /// </summary>
         /// <param name="hostRoot">The <see cref="DockNodeViewModel"/> to enumerate.</param>
-        /// <returns>The enumeration of <see cref="DockToolViewModel"/>s found.</returns>
+        /// <returns>The enumeration of <see cref="DockTabNodeViewModel"/>s found.</returns>
         private static IEnumerable<DockTabNodeViewModel> EnumerateTabViewModels(DockNodeViewModel hostRoot)
         {
             if (hostRoot is DockSplitNodeViewModel splitView)
@@ -209,7 +247,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private Boolean ApplyLayout(DockLayout layout)
         {
             // TODO: Review for leaking resources.
-            // TODO: Handle merging tools from existing DockHostRootViewModel into the newly built DockHostRootViewModel.
+            // TODO: Handle different merge options:
+            //       - KeepOldContexts
+            //       - KeepNewContexts (current, default)
+            //       - RemoveOldTools (don't re-add tools from rootGoingAway)
+            //       - RemoveNewTools (don't add tools from layout that aren't in rootGoingAway)
+            //       - KeepAllTools (current, default)
             DockHostRootViewModel root = DockLayoutConverter.BuildViewModel(layout);
             DockHostRootViewModel rootGoingAway = this.HostRoot;
 

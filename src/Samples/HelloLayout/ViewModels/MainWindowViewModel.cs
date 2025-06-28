@@ -31,23 +31,11 @@ namespace HelloLayout.ViewModels
         /// <returns>The thing built.</returns>
         private static DockLayoutRootViewModel BuildLayoutRoot()
         {
-            DockLayoutRootViewModel layout = new();
-            DockSplitNodeViewModel split = new()
-            {
-                Id = "root",
-            };
+            DockLayoutRootViewModel layout = new("left", "center", "right");
 
-            DockTabNodeViewModel tab = new()
-            {
-                Id = "center",
-            };
-
-            split.Children.Add(tab);
-
-            layout.HostRoot = new DockHostRootViewModel(split);
-            _ = layout.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Hello" }, "center");
-            _ = layout.CreateOrUpdateTool("2", "Layout Panel", new TextBlock { Text = "Layout" }, "center");
-            ////_ = layout.CreateOrUpdateTool("3", "Extra Panel", new TextBlock { Text = "Layout" }, "center");
+            _ = layout.CreateOrUpdateTool("1", "Left Tab", new TextBlock { Text = "Left" }, "left");
+            _ = layout.CreateOrUpdateTool("2", "Center Tab", new TextBlock { Text = "Center" }, "center");
+            _ = layout.CreateOrUpdateTool("3", "Right Tab", new TextBlock { Text = "Right" }, "right");
 
             return layout;
         }

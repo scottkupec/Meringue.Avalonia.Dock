@@ -1,8 +1,6 @@
 // Copyright (C) Meringue Project Team. All rights reserved.
 
 using System;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Meringue.Avalonia.Dock.ViewModels.UnitTests
@@ -117,35 +115,6 @@ namespace Meringue.Avalonia.Dock.ViewModels.UnitTests
                 root.UnpinnedTabs,
                 Does.Not.Contain(tool),
                 $"{nameof(DockHostRootViewModel.UnpinnedTabs)} should  not contain a tool gets removed.");
-        }
-
-        [Test]
-        public async Task GetObservableProperty_EmitsOnChange()
-        {
-            DockToolViewModel tool = NewTool("tool", false);
-            DockTabNodeViewModel tab = new();
-            tab.Tabs.Add(tool);
-            DockHostRootViewModel root = new(tab);
-
-            Int32 changes = 0;
-            using IDisposable sub = root
-                .GetObservableProperty(nameof(root.ShouldShowUnpinnedTabs))
-                .Subscribe(_ => changes++);
-
-            tool.IsPinned = true;
-            await Task.Delay(5).ConfigureAwait(false);
-
-            tool.IsPinned = false;
-            await Task.Delay(5).ConfigureAwait(false);
-
-            // Should not re-trigger an event.
-            tool.IsPinned = false;
-            await Task.Delay(5).ConfigureAwait(false);
-
-            Assert.That(
-                changes,
-                Is.EqualTo(2),
-                $"{nameof(DockHostRootViewModel.ShouldShowUnpinnedTabs)} should raise the correct number of events.");
         }
 
         private static DockToolViewModel NewTool(String id = "tool", Boolean pinned = true) =>

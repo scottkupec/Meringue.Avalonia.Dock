@@ -3,7 +3,7 @@
 namespace Meringue.Avalonia.Dock.ViewModels
 {
     /// <summary>
-    /// Defines the options for how non-existing tools should be inserted into a layout.
+    /// Defines the options for how non-existing tools should be inserted into a <see cref="DockLayoutRootViewModel"/>.
     /// </summary>
     public enum DockInsertPolicy
     {

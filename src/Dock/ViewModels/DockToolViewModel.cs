@@ -2,16 +2,17 @@
 
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Meringue.Avalonia.Dock.Controls;
 
 namespace Meringue.Avalonia.Dock.ViewModels
 {
     /// <summary>
-    /// View model for an individual docked tool tab.
+    /// Defines the view model for use with <see cref="DockTool"/>.
     /// </summary>
     public partial class DockToolViewModel : ObservableObject
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the tools is currently being hovered over.
+        /// Gets or sets a value indicating whether the tool is currently being hovered over by a pointer.
         /// </summary>
         [ObservableProperty]
         private Boolean isHovered;
@@ -23,7 +24,17 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private Boolean isPinned = true;
 
         /// <summary>
-        /// Gets or sets the id of the instance.
+        /// Gets or sets the content of the tool.
+        /// </summary>
+        public Object? Context { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title of the tool.
+        /// </summary>
+        public String Header { get; set; } = "Untitled";
+
+        /// <summary>
+        /// Gets or sets the id of the tool.
         /// </summary>
         public String Id { get; set; } = Guid.NewGuid().ToString("N");
 
@@ -31,16 +42,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// Gets a value indicating whether the tool is currently visible.
         /// </summary>
         public Boolean IsVisible => this.IsPinned || this.IsHovered;
-
-        /// <summary>
-        /// Gets or sets the content of the tool tab.
-        /// </summary>
-        public Object? Context { get; set; }
-
-        /// <summary>
-        /// Gets or sets the title of the tool tab.
-        /// </summary>
-        public String Header { get; set; } = "Untitled";
 
         /// <inheritdoc/>
         partial void OnIsPinnedChanged(Boolean oldValue, Boolean newValue) => OnPropertyChanged(nameof(this.IsVisible));

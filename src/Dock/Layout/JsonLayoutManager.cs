@@ -13,7 +13,7 @@ namespace Meringue.Avalonia.Dock.Layout
     public class JsonLayoutManager : IDockLayoutManager
     {
         /// <summary>
-        /// Defins the <see cref="JsonSerializerOptions"/> used when loading and saving JSON.
+        /// Defines the <see cref="JsonSerializerOptions"/> used when loading and saving JSON.
         /// </summary>
         private static readonly JsonSerializerOptions Options = new()
         {

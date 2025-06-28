@@ -20,15 +20,22 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private ObservableCollection<DockNodeViewModel> children = [];
 
         /// <summary>
-        /// Defines the <see cref="Orientation"/> used for splitting the control
-        /// when multiple children are present.
+        /// Defines the <see cref="Orientation"/> used when multiple children are present.
         /// </summary>
+        /// <remarks>
+        /// The orientation is the reverse of the splitter direction. Horizontal orientation
+        /// uses vertical splitters and veritical orientation uses horizontal splitters.
+        /// </remarks>
         [ObservableProperty]
         private Orientation orientation;
 
         /// <summary>
-        /// Gets the size for each child in <see cref="children"/>.
+        /// Gets the size currently used for each child in <see cref="children"/>.
         /// </summary>
+        /// <remarks>
+        /// The sum of all sizes cannot exceed 1.0, but may be less than 1.0 since we don't
+        /// have to track tools that are all allocated equally.
+        /// </remarks>
         [ObservableProperty]
         private ObservableCollection<Double> sizes = [];
     }

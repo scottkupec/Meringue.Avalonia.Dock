@@ -66,8 +66,6 @@ namespace HelloCombo.ViewModels
         private static DockLayoutRootViewModel BuildLayoutRoot()
         {
             DockLayoutRootViewModel layout = new();
-            DockSplitNodeViewModel split = new();
-            layout.HostRoot = new DockHostRootViewModel(split);
             _ = layout.CreateOrUpdateTool("1", "Hello Panel", new TextBlock { Text = "Hello" });
             _ = layout.CreateOrUpdateTool("3", "Layout Panel", new TextBlock { Text = "Layout" });
 
