@@ -7,7 +7,7 @@ using Avalonia.Layout;
 using Meringue.Avalonia.Dock.ViewModels;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Layout.Tests
+namespace Meringue.Avalonia.Dock.Layout.UnitTests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]

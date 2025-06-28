@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.ViewModels.Tests
+namespace Meringue.Avalonia.Dock.ViewModels.UnitTests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
@@ -158,8 +158,15 @@ namespace Meringue.Avalonia.Dock.ViewModels.Tests
 
             viewModel.Tabs = newTabs;
 
-            Assert.That(viewModel.HasTabs, Is.True);
-            Assert.That(viewModel.PinnedTabs.Count(), Is.EqualTo(1));
+            Assert.That(
+                viewModel.HasTabs,
+                Is.True,
+                $"{nameof(DockTabNodeViewModel.HasTabs)} should report true if there are tabs.");
+
+            Assert.That(
+                viewModel.PinnedTabs.Count(),
+                Is.EqualTo(1),
+                $"{nameof(DockTabNodeViewModel.PinnedTabs)} should report the correct number of pinned tabs.");
         }
 
         [Test]
@@ -177,7 +184,12 @@ namespace Meringue.Avalonia.Dock.ViewModels.Tests
             viewModel.Tabs = newTabs;
 
             oldTool.IsPinned = false;
-            Assert.That(viewModel.PinnedTabs.Any(t => t.Id == "old"), Is.False);
+            Assert.That(
+                viewModel.PinnedTabs.Any(t => t.Id == "old"),
+                Is.False,
+                $"{nameof(DockTabNodeViewModel.PinnedTabs)} should update correctly if the collection is replaced.");
+
+            // CONSIDER: Can we actually validate the handlers were removed?
         }
 
         [Test]
@@ -189,7 +201,10 @@ namespace Meringue.Avalonia.Dock.ViewModels.Tests
 
             tool.IsPinned = false;
 
-            Assert.That(viewModel.PinnedTabs.Contains(tool), Is.False);
+            Assert.That(
+                viewModel.PinnedTabs.Contains(tool),
+                Is.False,
+                $"Unpinned tools should not be present in {nameof(DockTabNodeViewModel.PinnedTabs)}.");
         }
 
         [Test]

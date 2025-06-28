@@ -26,10 +26,20 @@ steps:
     symbolsArtifactName: '$(system.teamProject)/$(ProjectName)/$(Build.BuildNumber)/$(Build.BuildId)'
 
 - task: PublishBuildArtifacts@1
-  displayName: Publish application
+  displayName: Publish nupkg as artifact
   inputs:
     PathToPublish: '$(Build.SourcesDirectory)\artifacts\bin\Meringue.Avalonia.Dock\$(BuildConfiguration)'
     parallel: true
     parallelCount: 8
     publishLocation: 'container'
     ArtifactName: 'Meringue.Avalonia.Dock'
+
+# Task NugetCommand@2 referenced by GUID per https://developercommunity.visualstudio.com/content/problem/288534/vsts-yaml-build-failure-the-task-name-nugetcommand.html
+- task: NugetCommand@2
+  displayName: Publish nuget packages
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Agent.BuildDirectory)/**/Meringue.*.nupkg;!$(Agent.BuildDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'Meringue.Dev'
+    allowPackageConflicts: true

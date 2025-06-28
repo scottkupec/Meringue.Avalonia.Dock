@@ -6,7 +6,7 @@ using Avalonia.Controls;
 using Meringue.Avalonia.Dock.ViewModels;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.Controls.Tests
+namespace Meringue.Avalonia.Dock.Controls.UnitTests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
@@ -26,8 +26,15 @@ namespace Meringue.Avalonia.Dock.Controls.Tests
                 .GetMethod("UpdateTabStripVisibility", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
                 .Invoke(panel, null);
 
-            Assert.That(panel.HasTabs, Is.True);
-            Assert.That(panel.ShouldShowTabStrip, Is.True);
+            Assert.That(
+                panel.HasTabs,
+                Is.True,
+                $"{nameof(DockTabNodeViewModel.HasTabs)} should be updated.");
+
+            Assert.That(
+                panel.ShouldShowTabStrip,
+                Is.True,
+                $"{nameof(DockTabNodeViewModel.ShouldShowTabStrip)} should be updated.");
         }
 
         [Test]
@@ -47,7 +54,10 @@ namespace Meringue.Avalonia.Dock.Controls.Tests
                 .GetMethod("OnTabSelectionChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
                 .Invoke(panel, [panel, args]);
 
-            Assert.That(tabNode.Selected, Is.EqualTo(tab));
+            Assert.That(
+                tabNode.Selected,
+                Is.EqualTo(tab),
+                $"{nameof(DockTabNodeViewModel.Selected)} should be updated.");
         }
 
         [Test]
@@ -68,7 +78,10 @@ namespace Meringue.Avalonia.Dock.Controls.Tests
 
             Object? result = method!.Invoke(null, [split, tool]);
 
-            Assert.That(result, Is.EqualTo(node));
+            Assert.That(
+                result,
+                Is.EqualTo(node),
+                "The correct parent should be returned.");
         }
 
         [Test]
@@ -88,7 +101,10 @@ namespace Meringue.Avalonia.Dock.Controls.Tests
 
             Object? result = method!.Invoke(null, [root, tabNode]);
 
-            Assert.That(result, Is.EqualTo(split));
+            Assert.That(
+                result,
+                Is.EqualTo(split),
+                "The correct parent should be returned.");
         }
 
         [Test]
@@ -106,7 +122,10 @@ namespace Meringue.Avalonia.Dock.Controls.Tests
 
             method!.Invoke(null, [split, tabNode]);
 
-            Assert.That(split.Children.Contains(tabNode), Is.False);
+            Assert.That(
+                split.Children.Contains(tabNode),
+                Is.False,
+                $"{nameof(DockSplitNodeViewModel)} should not contain empty panels now.");
         }
     }
 }

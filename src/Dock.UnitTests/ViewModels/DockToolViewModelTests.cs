@@ -3,7 +3,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Meringue.Avalonia.Dock.ViewModels.Tests
+namespace Meringue.Avalonia.Dock.ViewModels.UnitTests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
@@ -59,11 +59,30 @@ namespace Meringue.Avalonia.Dock.ViewModels.Tests
         {
             DockToolViewModel viewModel = new();
 
-            Assert.That(viewModel.IsPinned, Is.True);
-            Assert.That(viewModel.IsHovered, Is.False);
-            Assert.That(viewModel.Context, Is.Null);
-            Assert.That(viewModel.Header, Is.EqualTo("Untitled"));
-            Assert.That(Guid.TryParse(viewModel.Id, out _), Is.True);
+            Assert.That(
+                viewModel.Context,
+                Is.Null,
+                $"The default value for {nameof(DockToolViewModel.Context)} should be correct.");
+
+            Assert.That(
+                viewModel.Header,
+                Is.EqualTo("Untitled"),
+                $"The default value for {nameof(DockToolViewModel.Header)} should be correct.");
+
+            Assert.That(
+                Guid.TryParse(viewModel.Id, out _),
+                Is.True,
+                $"The default value for {nameof(DockToolViewModel.Id)} should be correct.");
+
+            Assert.That(
+                viewModel.IsHovered,
+                Is.False,
+                $"The default value for {nameof(DockToolViewModel.IsHovered)} should be correct.");
+
+            Assert.That(
+                viewModel.IsPinned,
+                Is.True,
+                $"The default value for {nameof(DockToolViewModel.IsPinned)} should be correct.");
         }
 
         [Test]

@@ -52,6 +52,62 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         private DockSplitNodeViewModel? ViewModel { get; set; }
 
+        /// <summary>
+        /// Rebuilds the control's visuals.
+        /// </summary>
+        // TODO: Refactor so this can be private and we can still test.
+        internal void RebuildLayout()
+        {
+            if (this.ViewModel == null || this.Container == null)
+            {
+                return;
+            }
+
+            IEnumerable<Control> controls = BuildChildControls(this.ViewModel.Children);
+            this.BuildGrid(this.Container, this.ViewModel.Orientation, controls);
+        }
+
+        /// <summary>Save the current sizes of each column or row.</summary>
+        // TODO: Refactor so this can be private and we can still test.
+        internal void SaveCurrentSizes()
+        {
+            if (this.Container is null || this.ViewModel is null)
+            {
+                return;
+            }
+
+            List<Double> sizes = [];
+
+            if (this.Orientation == Orientation.Horizontal)
+            {
+                // Filter out Auto columns (splitters) and get only the star columns
+                foreach (ColumnDefinition column in this.Container.ColumnDefinitions)
+                {
+                    if (column.Width.IsStar)
+                    {
+                        sizes.Add(column.Width.Value);
+                    }
+                }
+            }
+            else
+            {
+                foreach (RowDefinition row in this.Container.RowDefinitions)
+                {
+                    if (row.Height.IsStar)
+                    {
+                        sizes.Add(row.Height.Value);
+                    }
+                }
+            }
+
+            // Normalize sizes to proportions
+            Double total = sizes.Sum();
+            if (total > 0)
+            {
+                this.ViewModel.Sizes = new ObservableCollection<Double>(sizes.Select(s => s / total));
+            }
+        }
+
         /// <inheritdoc/>
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
@@ -195,60 +251,6 @@ namespace Meringue.Avalonia.Dock.Controls
             else
             {
                 this.ViewModel = null;
-            }
-        }
-
-        /// <summary>
-        /// Rebuilds the control's visuals.
-        /// </summary>
-        private void RebuildLayout()
-        {
-            if (this.ViewModel == null || this.Container == null)
-            {
-                return;
-            }
-
-            IEnumerable<Control> controls = BuildChildControls(this.ViewModel.Children);
-            this.BuildGrid(this.Container, this.ViewModel.Orientation, controls);
-        }
-
-        /// <summary>Save the current sizes of each column or row.</summary>
-        private void SaveCurrentSizes()
-        {
-            if (this.Container is null || this.ViewModel is null)
-            {
-                return;
-            }
-
-            List<Double> sizes = [];
-
-            if (this.Orientation == Orientation.Horizontal)
-            {
-                // Filter out Auto columns (splitters) and get only the star columns
-                foreach (ColumnDefinition column in this.Container.ColumnDefinitions)
-                {
-                    if (column.Width.IsStar)
-                    {
-                        sizes.Add(column.Width.Value);
-                    }
-                }
-            }
-            else
-            {
-                foreach (RowDefinition row in this.Container.RowDefinitions)
-                {
-                    if (row.Height.IsStar)
-                    {
-                        sizes.Add(row.Height.Value);
-                    }
-                }
-            }
-
-            // Normalize sizes to proportions
-            Double total = sizes.Sum();
-            if (total > 0)
-            {
-                this.ViewModel.Sizes = new ObservableCollection<Double>(sizes.Select(s => s / total));
             }
         }
     }

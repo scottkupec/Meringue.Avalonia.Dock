@@ -2,7 +2,7 @@
 
 using System;
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:File may only contain a single namespoace", Justification = "Providing compatibility layer.")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:File may only contain a single namespace", Justification = "Providing compatibility layer.")]
 
 #if !NET6_0_OR_GREATER
 #pragma warning disable IDE0130 // Namespace does not match folder structure
