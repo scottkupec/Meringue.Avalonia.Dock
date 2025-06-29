@@ -305,15 +305,9 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
+        // TODO: Refactor for readability.
         private void OnTabDropped(Object? sender, DragEventArgs eventArgs)
         {
-            System.Diagnostics.Debug.WriteLine($"Location is {this.dropAdorner?.HoveredZone}");
-
-            if (this.dropAdorner is null)
-            {
-                System.Diagnostics.Debug.WriteLine($"Adorner is null.");
-            }
-
             // Extract the dragged DockToolViewModel
             if (eventArgs.Data.Get("DockTool") is not DockToolViewModel draggedTab)
             {

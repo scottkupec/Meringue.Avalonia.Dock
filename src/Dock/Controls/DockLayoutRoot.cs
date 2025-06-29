@@ -2,7 +2,6 @@
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Meringue.Avalonia.Dock.Layout;
 using Meringue.Avalonia.Dock.ViewModels;
 
