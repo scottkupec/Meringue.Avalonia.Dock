@@ -25,7 +25,7 @@
                     </LayoutTransformControl.LayoutTransform>
 
                     <ToggleButton controls:FlyoutHelper.ShowFlyoutOnHover="True"
-                                  Background="SlateGray"
+                                  Background="{DynamicResource MerginueAccentColor}"
                                   FontSize="12"
                                   IsChecked="{Binding IsPinned, Mode=TwoWay}">
 
@@ -47,7 +47,10 @@
                       <StackPanel HorizontalAlignment="Center"
                                   Orientation="Horizontal"
                                   Spacing="2">
-                        <TextBlock Text="{Binding IsPinned, Converter={StaticResource PinIconConverter}}" />
+                        <TextBlock
+                          Background="Transparent"
+                          FontFamily="Segoe MDL2 Assets"
+                          Text="{Binding IsPinned, Converter={StaticResource PinIconConverter}}" />
                         <TextBlock Text="{Binding Header}" />
                       </StackPanel>
                     </ToggleButton>

@@ -9,14 +9,14 @@
       <ControlTemplate x:DataType="viewModels:DockToolViewModel">
         <Grid>
           <Border BorderThickness="1"
-                  BorderBrush="SlateGray"
+                  BorderBrush="{DynamicResource MerginueAccentColor}"
                   CornerRadius="1"
                   IsVisible="{Binding IsVisible}"
                   Margin="5">
             <DockPanel>
 
               <Border x:Name="PART_TitleBar"
-                      Background="SlateGray"
+                      Background="{DynamicResource MerginueAccentColor}"
                       DockPanel.Dock="Top"
                       Padding="1">
 

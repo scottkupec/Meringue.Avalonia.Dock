@@ -6,7 +6,18 @@
 
   <Styles.Resources>
     <ResourceDictionary>
-      <converters:PinIconConverter x:Key="PinIconConverter" />
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="/Themes/Converters.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <Color x:Key="MerginueAccentColor">SlateGray</Color>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <Color x:Key="MerginueAccentColor">SlateGray</Color>
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
     </ResourceDictionary>
   </Styles.Resources>
 
@@ -16,5 +27,6 @@
   <StyleInclude Source="/Themes/DockTabPanel.axaml" />
   <StyleInclude Source="/Themes/DockTool.axaml" />
   <StyleInclude Source="/Themes/DockToolStub.axaml" />
+  <StyleInclude Source="/Themes/TabHeaderView.axaml" />
 
 </Styles>

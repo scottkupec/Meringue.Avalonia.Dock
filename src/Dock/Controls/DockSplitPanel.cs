@@ -159,7 +159,6 @@ namespace Meringue.Avalonia.Dock.Controls
                 {
                     GridSplitter splitter = new()
                     {
-                        //// Background = Brushes.SlateGray,
                         Width = isHorizontal ? 0.5 : Double.NaN,
                         Height = isHorizontal ? Double.NaN : 0.5,
                         MinWidth = isHorizontal ? 0.5 : 0,

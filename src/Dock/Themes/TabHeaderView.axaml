@@ -1,0 +1,20 @@
+<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector="controls|TabHeaderView ToggleButton">
+    <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+    <Setter Property="FontSize" Value="10" />
+    <Style Selector="^ToggleButton /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="Red"/>
+    </Style>
+  </Style>
+</Styles>

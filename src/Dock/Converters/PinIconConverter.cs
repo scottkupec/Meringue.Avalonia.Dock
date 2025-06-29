@@ -11,7 +11,7 @@ namespace Meringue.Avalonia.Dock.Converters
     {
         /// <inheritdoc/>
         public Object Convert(Object? value, Type targetType, Object? parameter, CultureInfo culture)
-            => value is Boolean pinned && pinned ? "📌" : "📍";
+            => value is Boolean pinned && pinned ? "\uE840" : "\uE77A";
 
         /// <inheritdoc/>
         public Object ConvertBack(Object? value, Type targetType, Object? parameter, CultureInfo culture)

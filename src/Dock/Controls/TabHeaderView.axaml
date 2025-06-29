@@ -7,9 +7,7 @@
 
   <Grid ColumnDefinitions="*,Auto">
     <TextBlock Text="{Binding Header}" />
-    <ToggleButton Background="Transparent"
-                  Content="{Binding IsPinned, Converter={StaticResource PinIconConverter}}"
-                  FontSize="10"
+    <ToggleButton Content="{Binding IsPinned, Converter={StaticResource PinIconConverter}}"
                   Grid.Column="1"
                   IsChecked="{Binding IsPinned, Mode=TwoWay}" />
   </Grid>
