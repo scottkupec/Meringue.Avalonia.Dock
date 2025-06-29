@@ -1,12 +1,10 @@
-<UserControl
-    x:Class="Meringue.Avalonia.Dock.Controls.DockHost"
-    x:DataType="viewModels:DockNodeViewModel"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:controls="clr-namespace:Meringue.Avalonia.Dock.Controls"
-    xmlns:views="clr-namespace:Meringue.Avalonia.Dock.Views"
-    xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    DragDrop.AllowDrop="True">
+<UserControl x:Class="Meringue.Avalonia.Dock.Controls.DockHost"
+             x:DataType="viewModels:DockNodeViewModel"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:controls="clr-namespace:Meringue.Avalonia.Dock.Controls"
+             xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             DragDrop.AllowDrop="True">
 
   <UserControl.DataTemplates>
     <DataTemplate DataType="viewModels:DockTabNodeViewModel">

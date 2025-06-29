@@ -58,18 +58,7 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the corresponding <see cref="TabStrip"/> should
-        /// be displayed.
-        /// </summary>
-        public Boolean ShouldShowTabStrip
-        {
-            get => this.GetValue(ShouldShowTabStripProperty);
-            set => this.SetValue(ShouldShowTabStripProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the corresponding <see cref="TabStrip"/> should
-        /// be displayed.
+        /// Gets or sets a value indicating whether the control currently has any tabs.
         /// </summary>
         public Boolean HasTabs
         {
@@ -82,11 +71,21 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         public DockToolViewModel? Selected { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the corresponding <see cref="TabStrip"/> should
+        /// be displayed.
+        /// </summary>
+        public Boolean ShouldShowTabStrip
+        {
+            get => this.GetValue(ShouldShowTabStripProperty);
+            set => this.SetValue(ShouldShowTabStripProperty, value);
+        }
+
         /// <summary>Gets or sets the cached value for the control's root.</summary>
         private DockHostRootViewModel? CachedRoot { get; set; }
 
         /// <summary>
-        /// Gets or sets the current collection of items currently subscribed to.
+        /// Gets or sets the collection of items currently subscribed to.
         /// </summary>
         private INotifyCollectionChanged? CurrentItemsCollection { get; set; }
 
@@ -122,9 +121,9 @@ namespace Meringue.Avalonia.Dock.Controls
 
         /// <summary>Find the parent of the tab.</summary>
         /// <param name="root">The root of the full tree.</param>
-        /// <param name="tab">The tab to find.</param>
+        /// <param name="tab">The tab to find the parent for.</param>
         /// <returns>The parent of the tab.</returns>
-        // TODO: Move to DockNodeViewModel or make an extension method.
+        // CONSIDER: Move to DockNodeViewModel or make an extension method.
         private static DockTabNodeViewModel? FindCurrentParentNode(DockNodeViewModel root, DockToolViewModel tab)
         {
             if (root is DockTabNodeViewModel tabNode)
@@ -149,11 +148,10 @@ namespace Meringue.Avalonia.Dock.Controls
             return null;
         }
 
-        /// <summary>Find the parent of the tab.</summary>
+        /// <summary>Find the nearest parent <see cref="DockSplitNodeViewModel"/> of the <paramref name="child"/>.</summary>
         /// <param name="current">The root of the full tree.</param>
-        /// <param name="child">The tab to find.</param>
-        /// <returns>The parent of the tab.</returns>
-        // TODO: Fix xmldoc
+        /// <param name="child">The <see cref="DockNodeViewModel"/> to find the parent for.</param>
+        /// <returns>The nearest <see cref="DockSplitNodeViewModel"/> parent, if any..</returns>
         private static DockSplitNodeViewModel? FindParentSplitNode(DockNodeViewModel current, DockNodeViewModel child)
         {
             if (current is DockSplitNodeViewModel splitNode)
@@ -165,7 +163,6 @@ namespace Meringue.Avalonia.Dock.Controls
                         return splitNode;
                     }
 
-                    // Recurse deeper
                     DockSplitNodeViewModel? result = FindParentSplitNode(node, child);
                     if (result != null)
                     {
@@ -187,6 +184,7 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         /// <param name="root">The root being cleanup up.</param>
         /// <param name="node">The node to start at for removal.</param>
+        // TODO: This is awfully long for early returns to be used. Refactor?
         private static void RemoveEmptyPanels(DockNodeViewModel root, DockNodeViewModel? node)
         {
             while (node is not null && node != root)
@@ -243,6 +241,56 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
+        /// Called when starting to drag into a control.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
+        private void OnDragEnter(Object? sender, DragEventArgs eventArgs)
+        {
+            if (!eventArgs.Data.Contains("DockTool"))
+            {
+                return;
+            }
+
+            if (this.dropAdorner is null && this.GetVisualParent() is Panel root)
+            {
+                this.dropAdorner = new DockDropAdorner();
+                root.Children.Add(this.dropAdorner);
+            }
+
+            eventArgs.Handled = true;
+        }
+
+        /// <summary>
+        /// Called when no longer dragging a tab over the current control.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
+        private void OnDragLeave(Object? sender, DragEventArgs eventArgs)
+        {
+            this.RemoveDropAdorner();
+        }
+
+        /// <summary>
+        /// Called when dragging a tab over the current control.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
+        private void OnDragOver(Object? sender, DragEventArgs eventArgs)
+        {
+            if (!eventArgs.Data.Contains("DockTool") || this.dropAdorner is null)
+            {
+                return;
+            }
+
+            Point pointerPosition = eventArgs.GetPosition(this.dropAdorner);
+            this.dropAdorner.UpdateTarget(this, pointerPosition);
+
+            eventArgs.DragEffects = DragDropEffects.Move;
+            eventArgs.Handled = true;
+        }
+
+        /// <summary>
         /// Called when the item collection has changes.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
@@ -250,49 +298,6 @@ namespace Meringue.Avalonia.Dock.Controls
         private void OnItemsCollectionChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
         {
             this.UpdateTabStripVisibility();
-        }
-
-        /// <summary>
-        /// Maintains the event subscription for the items collection.
-        /// </summary>
-        private void SubscribeToItemsCollection()
-        {
-            if (this.CurrentItemsCollection != null)
-            {
-                this.CurrentItemsCollection.CollectionChanged -= this.OnItemsCollectionChanged;
-            }
-
-            this.CurrentItemsCollection = this.Items;
-
-            if (this.CurrentItemsCollection != null)
-            {
-                this.CurrentItemsCollection.CollectionChanged += this.OnItemsCollectionChanged;
-            }
-        }
-
-        /// <summary>
-        /// Keeps <see cref="DockTabPanel.ShouldShowTabStrip"/> current as items are added or removed
-        /// from the collection.
-        /// </summary>
-        private void UpdateTabStripVisibility()
-        {
-            this.ShouldShowTabStrip = this.Items.Count >= 2;
-            this.HasTabs = this.Items.Count != 0;
-        }
-
-        // TODO: De-duplicate
-
-        /// <summary>
-        /// Called when currently selected tab changes.
-        /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
-        private void OnTabSelectionChanged(Object? sender, SelectionChangedEventArgs eventArgs)
-        {
-            if (this.DataContext is DockTabNodeViewModel viewModel && this.SelectedItem is DockToolViewModel selectedTab)
-            {
-                viewModel.Selected = selectedTab;
-            }
         }
 
         /// <summary>
@@ -425,53 +430,16 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Called when starting to drag into a control.
+        /// Called when currently selected tab changes.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
-        private void OnDragEnter(Object? sender, DragEventArgs eventArgs)
+        private void OnTabSelectionChanged(Object? sender, SelectionChangedEventArgs eventArgs)
         {
-            if (!eventArgs.Data.Contains("DockTool"))
+            if (this.DataContext is DockTabNodeViewModel viewModel && this.SelectedItem is DockToolViewModel selectedTab)
             {
-                return;
+                viewModel.Selected = selectedTab;
             }
-
-            if (this.dropAdorner is null && this.GetVisualParent() is Panel root)
-            {
-                this.dropAdorner = new DockDropAdorner();
-                root.Children.Add(this.dropAdorner);
-            }
-
-            eventArgs.Handled = true;
-        }
-
-        /// <summary>
-        /// Called when dragging a tab over the current control.
-        /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
-        private void OnDragOver(Object? sender, DragEventArgs eventArgs)
-        {
-            if (!eventArgs.Data.Contains("DockTool") || this.dropAdorner is null)
-            {
-                return;
-            }
-
-            Point pointerPosition = eventArgs.GetPosition(this.dropAdorner);
-            this.dropAdorner.UpdateTarget(this, pointerPosition);
-
-            eventArgs.DragEffects = DragDropEffects.Move;
-            eventArgs.Handled = true;
-        }
-
-        /// <summary>
-        /// Called when no longer dragging a tab over the current control.
-        /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="eventArgs">The <see cref="DragEventArgs"/> for the event.</param>
-        private void OnDragLeave(Object? sender, DragEventArgs eventArgs)
-        {
-            this.RemoveDropAdorner();
         }
 
         /// <summary>
@@ -485,6 +453,34 @@ namespace Meringue.Avalonia.Dock.Controls
             }
 
             this.dropAdorner = null;
+        }
+
+        /// <summary>
+        /// Maintains the event subscription for the items collection.
+        /// </summary>
+        private void SubscribeToItemsCollection()
+        {
+            if (this.CurrentItemsCollection != null)
+            {
+                this.CurrentItemsCollection.CollectionChanged -= this.OnItemsCollectionChanged;
+            }
+
+            this.CurrentItemsCollection = this.Items;
+
+            if (this.CurrentItemsCollection != null)
+            {
+                this.CurrentItemsCollection.CollectionChanged += this.OnItemsCollectionChanged;
+            }
+        }
+
+        /// <summary>
+        /// Keeps <see cref="DockTabPanel.ShouldShowTabStrip"/> current as items are added or removed
+        /// from the collection.
+        /// </summary>
+        private void UpdateTabStripVisibility()
+        {
+            this.ShouldShowTabStrip = this.Items.Count >= 2;
+            this.HasTabs = this.Items.Count != 0;
         }
     }
 }

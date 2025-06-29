@@ -18,7 +18,8 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.RegisterAttached<Control, Control, DockHostRootViewModel?>("RootNode");
 
         /// <summary>
-        /// Walks up the visual tree to find the nearest DockHostRootViewModel, if not set on this control.
+        /// Walks up the visual tree, starting at <paramref name="startingFrom"/> and finds the nearest <see cref="DockHostRootViewModel"/>
+        /// that has been set as a root node for any control.
         /// </summary>
         /// <param name="startingFrom">The <see cref="Control"/> to start from.</param>
         /// <returns>The root <see cref="DockHostRootViewModel"/> or null if not such root exists.</returns>
@@ -50,7 +51,7 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Sets the root <see cref="DockHostRootViewModel"/> for the given <see cref="Control"/>.
+        /// Sets the provided  <see cref="DockHostRootViewModel"/> as the root node for the given <see cref="Control"/>.
         /// </summary>
         /// <param name="element">The <see cref="Control"/> the root is to be set for.</param>
         /// <param name="value">The root to set.</param>

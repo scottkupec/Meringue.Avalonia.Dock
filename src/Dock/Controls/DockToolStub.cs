@@ -12,7 +12,7 @@ using DockLocation = Avalonia.Controls.Dock;
 namespace Meringue.Avalonia.Dock.Controls
 {
     /// <summary>
-    /// Displays stub headers for unpinned docked tools along a screen edge.
+    /// Displays stub headers for unpinned docked tools along a <see cref="DockHostRoot"/> edge.
     /// </summary>
     internal class DockToolStub : TemplatedControl
     {
@@ -23,10 +23,10 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.Register<DockToolStub, IEnumerable<DockToolViewModel>?>(nameof(Tabs));
 
         /// <summary>
-        /// Defines the style property for the <see cref="Dock"/> member.
+        /// Defines the style property for the <see cref="DockEdge"/> member.
         /// </summary>
-        public static readonly StyledProperty<global::Avalonia.Controls.Dock?> DockEdgeProperty =
-            AvaloniaProperty.Register<DockToolStub, global::Avalonia.Controls.Dock?>(nameof(DockEdge));
+        public static readonly StyledProperty<DockLocation?> DockEdgeProperty =
+            AvaloniaProperty.Register<DockToolStub, DockLocation?>(nameof(DockEdge));
 
         /// <summary>
         /// Defines the style property for the <see cref="ShouldRotate"/> member.
@@ -35,22 +35,21 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.Register<DockToolStub, Boolean?>(nameof(ShouldRotate));
 
         /// <summary>
-        /// Gets or sets the collection of unpinned dock tool view models to display as stubs.
-        /// </summary>
-        public IEnumerable<DockToolViewModel>? Tabs
-        {
-            get => this.GetValue(TabsProperty);
-            set => this.SetValue(TabsProperty, value);
-        }
-
-        /// <summary>
         /// Gets or sets the screen edge to dock the tool stubs to.
         /// </summary>
-        public global::Avalonia.Controls.Dock? DockEdge
+        public DockLocation? DockEdge
         {
             get => this.GetValue(DockEdgeProperty);
             set => this.SetValue(DockEdgeProperty, value);
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the rotation setting is enabled based on edge and override.
+        /// </summary>
+        // TODO: This probably is no longer attached correctly.  Review and restore if needed.  This is
+        //       intended to allow callers to override the default of rotating based on the dock location.
+        public Boolean EffectiveRotation =>
+            this.ShouldRotate ?? this.DockEdge is DockLocation.Left or DockLocation.Right;
 
         /// <summary>
         /// Gets or sets whether to rotate tab headers. If null, defaults to true for Left/Right edges.
@@ -62,10 +61,13 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Gets a value indicating whether the rotation setting is enabled based on edge and override.
+        /// Gets or sets the collection of unpinned dock tool view models to display as stubs.
         /// </summary>
-        public Boolean EffectiveRotation =>
-            this.ShouldRotate ?? this.DockEdge is DockLocation.Left or DockLocation.Right;
+        public IEnumerable<DockToolViewModel>? Tabs
+        {
+            get => this.GetValue(TabsProperty);
+            set => this.SetValue(TabsProperty, value);
+        }
 
         /// <summary>
         /// Gets or sets the command executed when the stub becomes selected (e.g. the pane should be displayed).

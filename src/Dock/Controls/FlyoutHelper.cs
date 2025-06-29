@@ -14,7 +14,7 @@ namespace Meringue.Avalonia.Dock.Controls
     internal static class FlyoutHelper
     {
         /// <summary>
-        /// Defines the name of f the <see cref="AttachedProperty{TValue}"/> used for displaying the flyout.
+        /// Defines the name of the <see cref="AttachedProperty{TValue}"/> used for displaying the flyout.
         /// </summary>
         public static readonly AttachedProperty<Boolean> ShowFlyoutOnHoverProperty =
             AvaloniaProperty.RegisterAttached<Control, Control, Boolean>("ShowFlyoutOnHover");

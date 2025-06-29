@@ -10,9 +10,11 @@ namespace Meringue.Avalonia.Dock.Controls
     /// <summary>
     /// An adorner layer for dock drop locations.
     /// </summary>
+    // TODO: Investigate AdornerLayer as probably being more appropriate.
+    //       https://reference.avaloniaui.net/api/Avalonia.Controls.Primitives/AdornerLayer/
     public class DockDropAdorner : Control
     {
-        /// <summary>An empty Rect.</summary>
+        /// <summary>An empty <see cref="Rect"/> so we don't have to keep creating new ones.</summary>
 #pragma warning disable 0649 // Intentional
         private static readonly Rect RectEmpty;
 #pragma warning restore 0649
@@ -38,7 +40,7 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <summary>Gets the current drop zone being hovered over.</summary>
         public DropZoneLocation HoveredZone { get; private set; } = DropZoneLocation.None;
 
-        /// <summary>Renders the layer.</summary>
+        /// <summary>Renders the adorner layer.</summary>
         /// <param name="context">The context over which the layer should be drawn.</param>
         public override void Render(DrawingContext context)
         {
@@ -69,7 +71,7 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Updates the current pointer location relative.
+        /// Updates the current pointer location relative to the control.
         /// </summary>
         /// <param name="pointerPosition">The new pointer location.</param>
         public void UpdatePointer(Point? pointerPosition)

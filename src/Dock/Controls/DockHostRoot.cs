@@ -11,22 +11,22 @@ using Meringue.Avalonia.Dock.ViewModels;
 namespace Meringue.Avalonia.Dock.Controls
 {
     /// <summary>
-    /// A dock panel host.
+    /// The top level control for hosting a dock panel and its child controls.
     /// </summary>
     public class DockHostRoot : ContentControl
     {
+        /// <summary>
+        /// Defines the style property for the <see cref="RootNode"/> member.
+        /// </summary>
+        public static readonly StyledProperty<DockHostRootViewModel?> RootNodeProperty =
+            AvaloniaProperty.Register<DockHostRoot, DockHostRootViewModel?>(nameof(RootNode));
+
         /// <summary>
         /// Defines the style property for the <see cref="ShouldShowUnpinnedTabs"/> member.
         /// </summary>
         public static readonly StyledProperty<Boolean> ShouldShowUnpinnedTabsProperty =
             AvaloniaProperty.Register<DockHostRoot, Boolean>(
                 nameof(ShouldShowUnpinnedTabs));
-
-        /// <summary>
-        /// Defines the style property for the <see cref="RootNode"/> member.
-        /// </summary>
-        public static readonly StyledProperty<DockHostRootViewModel?> RootNodeProperty =
-            AvaloniaProperty.Register<DockHostRoot, DockHostRootViewModel?>(nameof(RootNode));
 
         /// <summary>
         /// Defines the style property for the <see cref="UnpinnedTabs"/> member.
@@ -43,22 +43,21 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the corresponding <see cref="TabStrip"/> should
-        /// be displayed.
-        /// </summary>
-        public Boolean ShouldShowUnpinnedTabs
-        {
-            get => this.GetValue(ShouldShowUnpinnedTabsProperty);
-            set => this.SetValue(ShouldShowUnpinnedTabsProperty, value);
-        }
-
-        /// <summary>
         /// Gets or sets the root <see cref="DockNodeViewModel"/>.
         /// </summary>
         public DockHostRootViewModel? RootNode
         {
             get => this.GetValue(RootNodeProperty);
             set => this.SetValue(RootNodeProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="UnpinnedTabsStub"/> should be displayed.
+        /// </summary>
+        public Boolean ShouldShowUnpinnedTabs
+        {
+            get => this.GetValue(ShouldShowUnpinnedTabsProperty);
+            set => this.SetValue(ShouldShowUnpinnedTabsProperty, value);
         }
 
         /// <summary>
@@ -103,7 +102,6 @@ namespace Meringue.Avalonia.Dock.Controls
 
             if (this.DataContext is DockHostRootViewModel viewModel)
             {
-                // TODO: De-duplicate with OnRootNodeChanged.
                 DockContext.SetRootNode(this, viewModel);
 
                 _ = this.Bind(
