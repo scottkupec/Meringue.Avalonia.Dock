@@ -1,20 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Authors>The Meringue.Avalonia.Dock Team</Authors>
-    <Description>A minimal docking system for Avalonia.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.2</Version>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <AssemblyVersion>$(Version).0</AssemblyVersion>
-    <EnableAsyncStackTraces Condition="'$(Configuration)' == 'Debug'">true</EnableAsyncStackTraces>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
     <LangVersion>latest</LangVersion>
-    <TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
-    <UseAvalonia>true</UseAvalonia>
+    <EnableAsyncStackTraces Condition="'$(Configuration)' == 'Debug'">true</EnableAsyncStackTraces>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <EnableXamlIlCompilation>true</EnableXamlIlCompilation>
     <UseWindowsForms>false</UseWindowsForms>
@@ -22,20 +19,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
-    <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="Nullable">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.Reactive" />
-    <PackageReference Include="System.Reactive.Linq" />
-    <PackageReference Include="System.Text.Json" />
+    <ProjectReference Include="..\..\Dock\Meringue.Avalonia.Dock.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AvaloniaXaml Include="Themes\DataTemplates.axaml" />
+  <ItemGroup> <!-- UI support -->
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,5 +36,4 @@
       <DependentUpon>$([System.IO.Path]::GetFileNameWithoutExtension('%(Filename)'))</DependentUpon>
     </Compile>
   </ItemGroup>
-
 </Project>

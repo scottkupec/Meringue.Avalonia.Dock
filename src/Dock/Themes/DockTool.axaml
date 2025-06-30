@@ -24,7 +24,7 @@
                                         VerticalAlignment="Top" />
               </Border>
 
-              <ContentPresenter Content="{Binding Context}" />
+              <ContentControl Content="{Binding Context}" />
             </DockPanel>
           </Border>
         </Grid>
