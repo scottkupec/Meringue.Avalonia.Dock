@@ -20,8 +20,8 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <summary>
         /// Defines the style property for the <see cref="Content"/> member.
         /// </summary>
-        public static readonly StyledProperty<Control?> ContentProperty =
-            AvaloniaProperty.Register<DockTool, Control?>(nameof(Content));
+        public static readonly StyledProperty<Object?> ContentProperty =
+            AvaloniaProperty.Register<DockTool, Object?>(nameof(Content));
 
         /// <summary>
         /// Defines the style property for the <see cref="Header"/> member.

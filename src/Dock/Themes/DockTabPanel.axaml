@@ -37,9 +37,7 @@
 
     <Setter Property="ContentTemplate">
       <DataTemplate DataType="viewModels:DockToolViewModel">
-        <controls:DockTool Header="{Binding Header}">
-          <ContentPresenter Content="{Binding Context}" />
-        </controls:DockTool>
+        <controls:DockTool Header="{Binding Header}" Content="{Binding Context}" />
       </DataTemplate>
     </Setter>
 

@@ -1,15 +1,15 @@
 <Application
   x:Class="HelloCustomControl.App"
   xmlns="https://github.com/avaloniaui"
-  xmlns:dock="clr-namespace:Meringue.Avalonia.Dock.Themes;assembly=Meringue.Avalonia.Dock"  
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:vm="clr-namespace:HelloCustomControl.ViewModels"
   xmlns:controls="clr-namespace:HelloCustomControl.Controls"
+  xmlns:dock="clr-namespace:Meringue.Avalonia.Dock.Themes;assembly=Meringue.Avalonia.Dock"  
+  xmlns:viewModels="clr-namespace:HelloCustomControl.ViewModels"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   RequestedThemeVariant="Light">
 
   <Application.DataTemplates>
 
-    <DataTemplate DataType="vm:SimpleDockToolViewModel">
+    <DataTemplate DataType="viewModels:SimpleDockToolViewModel">
       <controls:CustomControl />
     </DataTemplate>
   </Application.DataTemplates>  

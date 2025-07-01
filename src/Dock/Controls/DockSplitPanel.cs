@@ -160,11 +160,11 @@ namespace Meringue.Avalonia.Dock.Controls
                     GridSplitter splitter = new()
                     {
                         Width = isHorizontal ? 0.5 : Double.NaN,
-                        Height = isHorizontal ? Double.NaN : 0.5,
-                        MinWidth = isHorizontal ? 0.5 : 0,
-                        MaxWidth = isHorizontal ? 0.5 : Double.PositiveInfinity,
-                        MinHeight = isHorizontal ? 0 : 0.5,
-                        MaxHeight = isHorizontal ? Double.PositiveInfinity : 0.5,
+                        Height = isHorizontal ? Double.NaN : 2,
+                        MinWidth = isHorizontal ? 2 : 0,
+                        MaxWidth = isHorizontal ? 2 : Double.PositiveInfinity,
+                        MinHeight = isHorizontal ? 0 : 2,
+                        MaxHeight = isHorizontal ? Double.PositiveInfinity : 2,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch,
                     };

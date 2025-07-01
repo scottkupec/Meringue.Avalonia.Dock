@@ -3,7 +3,7 @@
     <Authors>The Meringue.Avalonia.Dock Team</Authors>
     <Description>A minimal docking system for Avalonia.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.2</Version>
+    <Version>0.0.5</Version>
   </PropertyGroup>
 
   <PropertyGroup>
