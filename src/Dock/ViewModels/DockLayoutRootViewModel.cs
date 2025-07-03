@@ -18,11 +18,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <summary>
         /// Gets or sets the <see cref="DockHostRootViewModel"/> being managed.
         /// </summary>
-        // TODO: Ensure this isn't visible at the wrong level. We need to access it to load layouts,
-        //       but it isn't intended for direct caller interaction since this is exactly what this
-        //       wrapper provides an API to manange.
-        ////[ObservableProperty]
-        [EditorBrowsable(EditorBrowsableState.Never)]
         private DockHostRootViewModel hostRoot;
 
         /// <summary>

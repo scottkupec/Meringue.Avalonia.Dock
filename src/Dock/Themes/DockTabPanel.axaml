@@ -41,10 +41,6 @@
       </DataTemplate>
     </Setter>
 
-    <Style Selector="^TabItem:selected /template/ ItemsPresenter#PART_ItemsPresenter > Border">
-      <Setter Property="BorderBrush" Value="DeepSkyBlue" />
-    </Style>
-
     <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
       <Setter Property="Orientation" Value="Vertical" />
     </Style>
