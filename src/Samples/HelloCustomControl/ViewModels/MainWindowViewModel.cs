@@ -44,6 +44,7 @@ namespace HelloCustomControl.ViewModels
                 {
                     Id = "simple-tool",
                     Header = "Test Tool",
+                    Title = "- This is a tool title",
                     Context = new SimpleDockToolViewModel(),
                 });
 

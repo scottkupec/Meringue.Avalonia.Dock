@@ -4,10 +4,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:DataType="viewModels:DockToolViewModel">
 
-  <Grid ColumnDefinitions="*,Auto">
-    <TextBlock Text="{Binding Header}" />
-    <ToggleButton Content="{Binding IsPinned, Converter={StaticResource PinIconConverter}}"
-                  Grid.Column="1"
-                  IsChecked="{Binding IsPinned, Mode=TwoWay}" />
-  </Grid>
+  <DockPanel VerticalAlignment="Center" Margin="4,0">
+
+    <ToggleButton
+      DockPanel.Dock="Right"
+      IsChecked="{Binding IsPinned, Mode=TwoWay}"
+      Content="📌" />
+
+    <StackPanel Orientation="Horizontal">
+      <TextBlock Text="{Binding Header}" />
+      <TextBlock Text="{Binding Title}" Margin="6,0,0,0" />
+    </StackPanel>
+
+  </DockPanel>
 </UserControl>

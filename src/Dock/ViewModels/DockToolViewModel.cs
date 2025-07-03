@@ -24,6 +24,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private Boolean isPinned = true;
 
         /// <summary>
+        /// Gets the title for the tool.
+        /// </summary>
+        [ObservableProperty]
+        private String title = String.Empty;
+
+        /// <summary>
         /// Gets or sets the content of the tool.
         /// </summary>
         public Object? Context { get; set; }
