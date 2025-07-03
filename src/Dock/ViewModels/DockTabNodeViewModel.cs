@@ -44,7 +44,7 @@ namespace Meringue.Avalonia.Dock.ViewModels
 
         /// <summary>Gets the <see cref="Tabs"/> that are currently pinned.</summary>
         public IEnumerable<DockToolViewModel> PinnedTabs =>
-            this.Tabs.Where(t => t.IsPinned);
+            this.Tabs.Where(t => t.IsPinned && !t.IsClosed);
 
         /// <summary>
         /// Gets the currently selected tab.

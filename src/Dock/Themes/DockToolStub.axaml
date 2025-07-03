@@ -1,8 +1,8 @@
-<Styles
-  xmlns="https://github.com/avaloniaui"
-  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
-  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+        xmlns:icons="clr-namespace:IconPacks.Avalonia.Lucide;assembly=IconPacks.Avalonia.Lucide"
+        xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <Style Selector=":is(controls|DockToolStub)">
     <Setter Property="Template">
@@ -26,7 +26,6 @@
 
                     <ToggleButton controls:FlyoutHelper.ShowFlyoutOnHover="True"
                                   Background="{DynamicResource MerginueAccentColor}"
-                                  FontSize="12"
                                   IsChecked="{Binding IsPinned, Mode=TwoWay}">
 
                       <FlyoutBase.AttachedFlyout>
@@ -47,10 +46,11 @@
                       <StackPanel HorizontalAlignment="Center"
                                   Orientation="Horizontal"
                                   Spacing="2">
-                        <TextBlock
-                          Background="Transparent"
-                          FontFamily="Segoe MDL2 Assets"
-                          Text="{Binding IsPinned, Converter={StaticResource PinIconConverter}}" />
+                        <icons:PackIconLucide Kind="Pin"
+                                              Height="12"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Width="12"/>
                         <TextBlock Text="{Binding Header}" />
                       </StackPanel>
                     </ToggleButton>

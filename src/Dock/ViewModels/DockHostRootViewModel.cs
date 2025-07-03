@@ -37,6 +37,11 @@ namespace Meringue.Avalonia.Dock.ViewModels
         }
 
         /// <summary>
+        /// Gets the list of <see cref="DockToolViewModel"/> that are currently closed and not part of the visuals.
+        /// </summary>
+        public ObservableCollection<DockToolViewModel> ClosedTabs { get; } = [];
+
+        /// <summary>
         /// Gets the list of <see cref="DockToolViewModel"/> that are currently unpinned and represented by <see cref="DockToolStub"/>s.
         /// </summary>
         public ObservableCollection<DockToolViewModel> UnpinnedTabs { get; } = [];
@@ -138,6 +143,10 @@ namespace Meringue.Avalonia.Dock.ViewModels
                 {
                     this.UpdatePinnedState(tool);
                 }
+                else if (eventArgs.PropertyName == nameof(DockToolViewModel.IsClosed))
+                {
+                    this.UpdateClosedState(tool);
+                }
             }
 
             tool.PropertyChanged += Handler;
@@ -182,6 +191,29 @@ namespace Meringue.Avalonia.Dock.ViewModels
             }
 
             _ = this.UnpinnedTabs.Remove(tool); // Also remove from unpinned view
+        }
+
+        /// <summary>
+        /// Updates the state of <see cref="ClosedTabs"/> based on the updated state of the <paramref name="tool"/>.
+        /// </summary>
+        /// <param name="tool">The <see cref="DockToolViewModel"/> which has a state change to process.</param>
+        private void UpdateClosedState(DockToolViewModel tool)
+        {
+            if (tool.IsClosed)
+            {
+                if (this.ClosedTabs.Contains(tool))
+                {
+                    _ = this.ClosedTabs.Remove(tool);
+                }
+
+                // the else case may be worthy of a debug assert.
+            }
+            else if (!this.ClosedTabs.Contains(tool))
+            {
+                this.ClosedTabs.Add(tool);
+            }
+
+            // the else case may also be worthy of a debug assert.
         }
 
         /// <summary>

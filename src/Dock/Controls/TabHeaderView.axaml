@@ -1,5 +1,6 @@
 <UserControl x:Class="Meringue.Avalonia.Dock.Controls.TabHeaderView"
              xmlns="https://github.com/avaloniaui"
+             xmlns:icons="clr-namespace:IconPacks.Avalonia.Lucide;assembly=IconPacks.Avalonia.Lucide"
              xmlns:viewModels="clr-namespace:Meringue.Avalonia.Dock.ViewModels"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:DataType="viewModels:DockToolViewModel">
@@ -8,8 +9,19 @@
 
     <ToggleButton
       DockPanel.Dock="Right"
+      IsChecked="{Binding !IsClosed, Mode=TwoWay}"
+      Content="{icons:Lucide Kind=X,Height=12,Width=12}"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      IsEnabled="{Binding CanClose}" />
+
+    <ToggleButton
+      DockPanel.Dock="Right"
       IsChecked="{Binding IsPinned, Mode=TwoWay}"
-      Content="📌" />
+      Content="{icons:Lucide Kind=PinOff,Height=12,Width=12}"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      IsVisible="{Binding CanPin}" />
 
     <StackPanel Orientation="Horizontal">
       <TextBlock Text="{Binding Header}" />

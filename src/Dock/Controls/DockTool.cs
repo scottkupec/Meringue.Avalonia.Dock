@@ -30,6 +30,12 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.Register<DockTool, String>(nameof(Header));
 
         /// <summary>
+        /// Defines the style property for the <see cref="IsClosed"/> member.
+        /// </summary>
+        public static readonly StyledProperty<Boolean> IsClosedProperty =
+            AvaloniaProperty.Register<DockTool, Boolean>(nameof(IsClosed));
+
+        /// <summary>
         /// Defines the style property for the <see cref="IsPinned"/> member.
         /// </summary>
         public static readonly StyledProperty<Boolean> IsPinnedProperty =
@@ -40,6 +46,7 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         public DockTool()
         {
+            this.ToggleClosedCommand = new RelayCommand(() => this.IsClosed = !this.IsClosed);
             this.TogglePinCommand = new RelayCommand(() => this.IsPinned = !this.IsPinned);
         }
 
@@ -63,6 +70,15 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the tool is currently closed.
+        /// </summary>
+        public Boolean IsClosed
+        {
+            get => this.GetValue(IsClosedProperty);
+            set => this.SetValue(IsClosedProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the tool is currently pinned.
         /// </summary>
         public Boolean IsPinned
@@ -70,6 +86,11 @@ namespace Meringue.Avalonia.Dock.Controls
             get => this.GetValue(IsPinnedProperty);
             set => this.SetValue(IsPinnedProperty, value);
         }
+
+        /// <summary>
+        /// Gets the command to execute when <see cref="IsClosed"/> is toggled.
+        /// </summary>
+        public ICommand ToggleClosedCommand { get; }
 
         /// <summary>
         /// Gets the command to execute when <see cref="IsPinned"/> is toggled.

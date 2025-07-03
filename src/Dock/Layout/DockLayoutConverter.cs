@@ -78,7 +78,11 @@ namespace Meringue.Avalonia.Dock.Layout
                             {
                                 Id = t.Id.ToString(),
                                 Header = t.Header,
+                                CanClose = t.CanClose,
+                                CanPin = t.CanPin,
+                                IsClosed = t.IsClosed,
                                 IsPinned = t.IsPinned,
+                                Title = t.Title,
                             })],
                     },
 
@@ -131,6 +135,9 @@ namespace Meringue.Avalonia.Dock.Layout
                     {
                         Id = tool.Id,
                         Header = tool.Header ?? "Loading...",
+                        CanClose = tool.CanClose,
+                        CanPin = tool.CanPin,
+                        IsClosed = tool.IsClosed,
                         IsPinned = tool.IsPinned,
                         Context = new TextBlock() { Text = "Loading..." }, // Will be attached via CreateOrUpdateTool later
                     };

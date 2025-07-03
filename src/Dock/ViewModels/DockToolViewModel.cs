@@ -12,6 +12,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
     public partial class DockToolViewModel : ObservableObject
     {
         /// <summary>
+        /// Gets or sets a value indicating whether the tool is currently closed.
+        /// </summary>
+        [ObservableProperty]
+        private Boolean isClosed;
+
+        /// <summary>
         /// Gets or sets a value indicating whether the tool is currently being hovered over by a pointer.
         /// </summary>
         [ObservableProperty]
@@ -28,6 +34,16 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// </summary>
         [ObservableProperty]
         private String title = String.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tool can be closed.
+        /// </summary>
+        public Boolean CanClose { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tool can be pinned.
+        /// </summary>
+        public Boolean CanPin { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the content of the tool.
@@ -47,7 +63,10 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <summary>
         /// Gets a value indicating whether the tool is currently visible.
         /// </summary>
-        public Boolean IsVisible => this.IsPinned || this.IsHovered;
+        public Boolean IsVisible => !this.IsClosed && (this.IsPinned || this.IsHovered);
+
+        /// <inheritdoc/>
+        partial void OnIsClosedChanged(Boolean oldValue, Boolean newValue) => OnPropertyChanged(nameof(this.IsClosed));
 
         /// <inheritdoc/>
         partial void OnIsPinnedChanged(Boolean oldValue, Boolean newValue) => OnPropertyChanged(nameof(this.IsVisible));

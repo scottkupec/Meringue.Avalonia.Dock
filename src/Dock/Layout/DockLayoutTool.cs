@@ -15,6 +15,16 @@ namespace Meringue.Avalonia.Dock.Layout
         public String Id { get; set; } = String.Empty;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the tool is pinned.
+        /// </summary>
+        public Boolean CanClose { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tool is pinned.
+        /// </summary>
+        public Boolean CanPin { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets the display header for the tool.
         /// </summary>
         public String? Header { get; set; }
@@ -22,6 +32,16 @@ namespace Meringue.Avalonia.Dock.Layout
         /// <summary>
         /// Gets or sets a value indicating whether the tool is pinned.
         /// </summary>
+        public Boolean IsClosed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tool is pinned.
+        /// </summary>
         public Boolean IsPinned { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title for the tool.
+        /// </summary>
+        public String? Title { get; set; }
     }
 }
