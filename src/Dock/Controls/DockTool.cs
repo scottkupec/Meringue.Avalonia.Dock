@@ -30,6 +30,12 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.Register<DockTool, String>(nameof(Header));
 
         /// <summary>
+        /// Defines the style property for the <see cref="Title"/> member.
+        /// </summary>
+        public static readonly StyledProperty<String> TitleProperty =
+            AvaloniaProperty.Register<DockTool, String>(nameof(Title));
+
+        /// <summary>
         /// Defines the style property for the <see cref="IsClosed"/> member.
         /// </summary>
         public static readonly StyledProperty<Boolean> IsClosedProperty =
@@ -46,6 +52,11 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         public DockTool()
         {
+            this.Loaded += (_, _) =>
+            {
+                this.InvalidateVisual();
+            };
+
             this.ToggleClosedCommand = new RelayCommand(() => this.IsClosed = !this.IsClosed);
             this.TogglePinCommand = new RelayCommand(() => this.IsPinned = !this.IsPinned);
         }
@@ -85,6 +96,15 @@ namespace Meringue.Avalonia.Dock.Controls
         {
             get => this.GetValue(IsPinnedProperty);
             set => this.SetValue(IsPinnedProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the header/title for the tool.
+        /// </summary>
+        public String Title
+        {
+            get => this.GetValue(TitleProperty);
+            set => this.SetValue(TitleProperty, value);
         }
 
         /// <summary>

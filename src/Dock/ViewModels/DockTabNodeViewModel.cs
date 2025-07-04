@@ -20,6 +20,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// <summary>Tracks the pin handlers for current tabs.</summary>
         private readonly Dictionary<DockToolViewModel, PropertyChangedEventHandler> pinnedHandlers = [];
 
+        /// <summary>
+        /// Gets the currently selected tab.
+        /// </summary>
+        [ObservableProperty]
+        private DockToolViewModel? selected;
+
         /// <summary>The list for <see cref="DockTool"/>s to be presented as tabs.</summary>
         [ObservableProperty]
         private ObservableCollection<DockToolViewModel> tabs = [];
@@ -46,10 +52,10 @@ namespace Meringue.Avalonia.Dock.ViewModels
         public IEnumerable<DockToolViewModel> PinnedTabs =>
             this.Tabs.Where(t => t.IsPinned && !t.IsClosed);
 
-        /// <summary>
-        /// Gets the currently selected tab.
-        /// </summary>
-        public DockToolViewModel? Selected { get; internal set; }
+        /////// <summary>
+        /////// Gets the currently selected tab.
+        /////// </summary>
+        ////public DockToolViewModel? Selected { get; internal set; }
 
         /// <summary>
         /// Gets a value indicating whether a <see cref="TabStrip"/> for switching tabs should be displayed.
@@ -117,6 +123,19 @@ namespace Meringue.Avalonia.Dock.ViewModels
             {
                 ((INotifyPropertyChanged)tab).PropertyChanged -= handler;
                 _ = this.pinnedHandlers.Remove(tab);
+            }
+        }
+
+        /// <summary>
+        /// Called when the <see cref="Selected"/> property changes.
+        /// </summary>
+        /// <param name="oldValue">The previously selected <see cref="DockToolViewModel"/>.</param>
+        /// <param name="newValue">The currently selected <see cref="DockToolViewModel"/>.</param>
+        partial void OnSelectedChanged(DockToolViewModel? oldValue, DockToolViewModel? newValue)
+        {
+            foreach (DockToolViewModel tab in this.Tabs)
+            {
+                tab.IsSelected = tab == newValue;
             }
         }
 

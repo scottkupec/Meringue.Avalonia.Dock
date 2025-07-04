@@ -47,11 +47,12 @@
                                   Orientation="Horizontal"
                                   Spacing="2">
                         <icons:PackIconLucide Kind="Pin"
-                                              Height="12"
+                                              Height="{DynamicResource MeringueFontSize}"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
-                                              Width="12"/>
-                        <TextBlock Text="{Binding Header}" />
+                                              Width="{DynamicResource MeringueFontSize}"/>
+                        <TextBlock Text="{Binding Header}"
+                                   FontSize="{DynamicResource MeringueFontSize}"/>
                       </StackPanel>
                     </ToggleButton>
                   </LayoutTransformControl>

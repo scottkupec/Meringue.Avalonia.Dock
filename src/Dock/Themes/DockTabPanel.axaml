@@ -1,8 +1,7 @@
-<Styles
-  xmlns="https://github.com/avaloniaui"
-  xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
-  xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:controls="using:Meringue.Avalonia.Dock.Controls"
+        xmlns:viewModels="using:Meringue.Avalonia.Dock.ViewModels"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <Style Selector=":is(controls|DockTabPanel)">
     <Setter Property="TabStripPlacement" Value="Bottom" />
@@ -18,26 +17,26 @@
               Name="PART_ItemsPresenter"
               DockPanel.Dock="{TemplateBinding TabStripPlacement}"
               IsVisible="{TemplateBinding ShouldShowTabStrip}" 
-              ItemsPanel="{TemplateBinding ItemsPanel}" />
+              ItemsPanel="{TemplateBinding ItemsPanel}"/>
 
             <ContentPresenter
               Name="PART_SelectedContentHost"
               Content="{TemplateBinding SelectedContent}"
-              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+              ContentTemplate="{TemplateBinding ContentTemplate}" />
           </DockPanel>
         </Grid>
       </ControlTemplate>
     </Setter>
 
-    <Setter Property="ItemTemplate">
-      <DataTemplate DataType="viewModels:DockToolViewModel">
-        <TextBlock FontSize="12" Text="{Binding Header}" />
-      </DataTemplate>
-    </Setter>
-
     <Setter Property="ContentTemplate">
       <DataTemplate DataType="viewModels:DockToolViewModel">
         <controls:DockTool Header="{Binding Header}" Content="{Binding Context}" />
+      </DataTemplate>
+    </Setter>
+
+    <Setter Property="ItemTemplate">
+      <DataTemplate DataType="viewModels:DockToolViewModel">
+        <TextBlock FontSize="{DynamicResource MeringueFontSize}" Text="{Binding Header}" />
       </DataTemplate>
     </Setter>
 

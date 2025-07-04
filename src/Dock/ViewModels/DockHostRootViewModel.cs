@@ -201,16 +201,18 @@ namespace Meringue.Avalonia.Dock.ViewModels
         {
             if (tool.IsClosed)
             {
-                if (this.ClosedTabs.Contains(tool))
+                if (!this.ClosedTabs.Contains(tool))
                 {
-                    _ = this.ClosedTabs.Remove(tool);
+                    this.ClosedTabs.Add(tool);
+                    this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
                 }
 
                 // the else case may be worthy of a debug assert.
             }
-            else if (!this.ClosedTabs.Contains(tool))
+            else if (this.ClosedTabs.Contains(tool))
             {
-                this.ClosedTabs.Add(tool);
+                _ = this.ClosedTabs.Remove(tool);
+                this.OnPropertyChanged(nameof(this.ShouldShowUnpinnedTabs));
             }
 
             // the else case may also be worthy of a debug assert.

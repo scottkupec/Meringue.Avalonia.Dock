@@ -169,6 +169,13 @@ namespace Meringue.Avalonia.Dock.ViewModels
         }
 
         /// <summary>
+        /// Recursively searches the layout tree for a <see cref="DockToolViewModel"/> with the given ID.
+        /// </summary>
+        /// <param name="id">The ID of the tool to find.</param>
+        /// <returns>The matching <see cref="DockToolViewModel"/>, or null if not found.</returns>
+        public virtual DockToolViewModel? FindTool(String id) => this.HostRoot.HostRoot.FindTool(id);
+
+        /// <summary>
         /// Saves the current layout to a stream.
         /// </summary>
         /// <param name="stream">The name of the stream from which the layout should be loaded.</param>

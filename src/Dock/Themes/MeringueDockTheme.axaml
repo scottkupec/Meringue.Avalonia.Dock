@@ -1,8 +1,8 @@
-<Styles
-  xmlns="https://github.com/avaloniaui"
-  xmlns:converters="clr-namespace:Meringue.Avalonia.Dock.Converters"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  x:Class="Meringue.Avalonia.Dock.Themes.MeringueDockTheme">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:converters="clr-namespace:Meringue.Avalonia.Dock.Converters"
+        xmlns:sys="clr-namespace:System;assembly=netstandard"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Meringue.Avalonia.Dock.Themes.MeringueDockTheme">
 
   <Styles.Resources>
     <ResourceDictionary>
@@ -13,9 +13,11 @@
       <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
           <Color x:Key="MerginueAccentColor">SlateGray</Color>
+          <sys:Double x:Key="MeringueFontSize">10</sys:Double>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
           <Color x:Key="MerginueAccentColor">SlateGray</Color>
+          <sys:Double x:Key="MeringueFontSize">10</sys:Double>
         </ResourceDictionary>
       </ResourceDictionary.ThemeDictionaries>
     </ResourceDictionary>

@@ -21,7 +21,8 @@
                       Padding="1">
 
                 <controls:TabHeaderView HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Top" />
+                                        VerticalAlignment="Top"
+                                        DataContext="{TemplateBinding DataContext}" />
               </Border>
 
               <ContentPresenter Content="{TemplateBinding Content}" />

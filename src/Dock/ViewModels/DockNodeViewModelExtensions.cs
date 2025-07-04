@@ -2,9 +2,8 @@
 
 using System;
 using System.Linq;
-using Meringue.Avalonia.Dock.ViewModels;
 
-namespace Meringue.Avalonia.Dock.Layout
+namespace Meringue.Avalonia.Dock.ViewModels
 {
     /// <summary>
     /// Extension methods for searching within a Dock layout tree.
@@ -12,7 +11,7 @@ namespace Meringue.Avalonia.Dock.Layout
     public static class DockNodeViewModelExtensions
     {
         /// <summary>
-        /// Recursively searches the layout tree for a <see cref="DockToolViewModel"/> with the given ID.
+        /// Recursively searches a <see cref="DockNodeViewModel"/> tree for a <see cref="DockToolViewModel"/> with the given ID.
         /// </summary>
         /// <param name="rootNode">The root node to search.</param>
         /// <param name="id">The ID of the tool to find.</param>
@@ -41,7 +40,7 @@ namespace Meringue.Avalonia.Dock.Layout
         }
 
         /// <summary>
-        /// Recursively searches the layout tree for a <see cref="DockNodeViewModel"/> with the given ID.
+        /// Recursively searches a <see cref="DockNodeViewModel"/> tree for a <see cref="DockNodeViewModel"/> with the given ID.
         /// </summary>
         /// <param name="rootNode">The root node to search.</param>
         /// <param name="id">The ID of the node to find.</param>

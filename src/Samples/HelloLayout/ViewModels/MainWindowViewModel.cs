@@ -34,7 +34,8 @@ namespace HelloLayout.ViewModels
             DockLayoutRootViewModel layout = new("left", "center", "right");
 
             _ = layout.CreateOrUpdateTool("1", "Left Tab", new TextBlock { Text = "Left" }, "left");
-            _ = layout.CreateOrUpdateTool("2", "Center Tab", new TextBlock { Text = "Center" }, "center");
+            DockToolViewModel? cantCloseTool = layout.CreateOrUpdateTool("2", "Center Tab", new TextBlock { Text = "Center" }, "center");
+            cantCloseTool!.CanClose = false;
             _ = layout.CreateOrUpdateTool("3", "Right Tab", new TextBlock { Text = "Right" }, "right");
 
             return layout;

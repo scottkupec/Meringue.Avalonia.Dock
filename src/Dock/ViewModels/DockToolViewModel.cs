@@ -30,6 +30,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
         private Boolean isPinned = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the tool is currently selected.
+        /// </summary>
+        [ObservableProperty]
+        private Boolean isSelected;
+
+        /// <summary>
         /// Gets the title for the tool.
         /// </summary>
         [ObservableProperty]

@@ -10,22 +10,31 @@
     <ToggleButton
       DockPanel.Dock="Right"
       IsChecked="{Binding !IsClosed, Mode=TwoWay}"
-      Content="{icons:Lucide Kind=X,Height=12,Width=12}"
       HorizontalAlignment="Center"
       VerticalAlignment="Center"
-      IsEnabled="{Binding CanClose}" />
+      IsEnabled="{Binding CanClose}">
+      <icons:PackIconLucide Kind="X"
+                            Height="{DynamicResource MeringueFontSize}"
+                            Width="{DynamicResource MeringueFontSize}" />
+    </ToggleButton>
 
     <ToggleButton
       DockPanel.Dock="Right"
       IsChecked="{Binding IsPinned, Mode=TwoWay}"
-      Content="{icons:Lucide Kind=PinOff,Height=12,Width=12}"
       HorizontalAlignment="Center"
       VerticalAlignment="Center"
-      IsVisible="{Binding CanPin}" />
+      IsVisible="{Binding CanPin}">
+      <icons:PackIconLucide Kind="PinOff"
+                            Height="{DynamicResource MeringueFontSize}"
+                            Width="{DynamicResource MeringueFontSize}" />
+    </ToggleButton>
 
     <StackPanel Orientation="Horizontal">
-      <TextBlock Text="{Binding Header}" />
-      <TextBlock Text="{Binding Title}" Margin="6,0,0,0" />
+      <TextBlock Text="{Binding Header}"
+                 FontSize="{DynamicResource MeringueFontSize}" />
+      <TextBlock Text="{Binding Title}"
+                 Margin="6,0,0,0"
+                 FontSize="{DynamicResource MeringueFontSize}" />
     </StackPanel>
 
   </DockPanel>
