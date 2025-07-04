@@ -52,11 +52,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
         public IEnumerable<DockToolViewModel> PinnedTabs =>
             this.Tabs.Where(t => t.IsPinned && !t.IsClosed);
 
-        /////// <summary>
-        /////// Gets the currently selected tab.
-        /////// </summary>
-        ////public DockToolViewModel? Selected { get; internal set; }
-
         /// <summary>
         /// Gets a value indicating whether a <see cref="TabStrip"/> for switching tabs should be displayed.
         /// </summary>

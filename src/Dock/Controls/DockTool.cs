@@ -52,11 +52,6 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         public DockTool()
         {
-            this.Loaded += (_, _) =>
-            {
-                this.InvalidateVisual();
-            };
-
             this.ToggleClosedCommand = new RelayCommand(() => this.IsClosed = !this.IsClosed);
             this.TogglePinCommand = new RelayCommand(() => this.IsPinned = !this.IsPinned);
         }
