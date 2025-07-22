@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Meringue.Avalonia.Dock.ViewModels;
@@ -13,7 +12,7 @@ namespace Meringue.Avalonia.Dock.Controls
     /// <summary>
     /// The top level control for hosting a dock panel and its child controls.
     /// </summary>
-    public class DockHostRoot : ContentControl
+    public class DockHostRoot : TemplatedControl
     {
         /// <summary>
         /// Defines the style property for the <see cref="RootNode"/> member.
@@ -33,14 +32,6 @@ namespace Meringue.Avalonia.Dock.Controls
         /// </summary>
         public static readonly StyledProperty<IList<DockToolViewModel>> UnpinnedTabsProperty =
             AvaloniaProperty.Register<DockHostRoot, IList<DockToolViewModel>>(nameof(UnpinnedTabs));
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DockHostRoot"/> class.
-        /// </summary>
-        public DockHostRoot()
-        {
-            _ = this.Bind(ContentProperty, this.GetObservable(RootNodeProperty));
-        }
 
         /// <summary>
         /// Gets or sets the root <see cref="DockNodeViewModel"/>.
