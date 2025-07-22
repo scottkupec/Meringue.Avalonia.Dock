@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
+using Avalonia.Threading;
 using Meringue.Avalonia.Dock.ViewModels;
 
 namespace Meringue.Avalonia.Dock.Controls
@@ -212,10 +214,18 @@ namespace Meringue.Avalonia.Dock.Controls
                     }
 
                     container.Children.Add(ctrl);
+
+                    // TODO: Keep while investigating render issue for tools in all split panels,
+                    //       other than the one being split, when dragging and dropping tools.
+                    ////ctrl.InvalidateVisual();
                 }
 
                 index++;
             }
+
+            // TODO: Keep while investigating render issue for tools in all split panels,
+            //       other than the one being split, when dragging and dropping tools.
+            ////this.Container!.InvalidateVisual();
         }
 
         /// <summary>
@@ -225,8 +235,40 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
         private void OnChildrenChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
         {
-            // You could make this smarter with partial rebuild, but full rebuild is safer for now
+            // TODO: Keep while investigating render issue for tools in all split panels,
+            //       other than the one being split, when dragging and dropping tools.
+            ////if (eventArgs.NewItems != null)
+            ////{
+            ////    foreach (DockNodeViewModel newChild in eventArgs.NewItems)
+            ////    {
+            ////        newChild.PropertyChanged += this.OnChildPropertyChanged;
+            ////    }
+            ////}
+
+            ////if (eventArgs.OldItems != null)
+            ////{
+            ////    foreach (DockNodeViewModel oldChild in eventArgs.OldItems)
+            ////    {
+            ////        oldChild.PropertyChanged -= this.OnChildPropertyChanged;
+            ////    }
+            ////}
+
             this.RebuildLayout();
+        }
+
+        /// <summary>
+        /// Called when a member of the view model's children collection has changes.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
+        private void OnChildPropertyChanged(Object? sender, PropertyChangedEventArgs eventArgs)
+        {
+            // Optionally filter for specific properties
+            ////System.Diagnostics.Debug.WriteLine($"Child changed property: {eventArgs.PropertyName}");
+
+            // TODO: Keep while investigating render issue for tools in all split panels,
+            //       other than the one being split, when dragging and dropping tools.
+            ////_ = Dispatcher.UIThread.InvokeAsync(this.InvalidateVisual);
         }
 
         /// <summary>
@@ -239,12 +281,27 @@ namespace Meringue.Avalonia.Dock.Controls
             if (this.ViewModel != null)
             {
                 this.ViewModel.Children.CollectionChanged += this.OnChildrenChanged;
+
+                // TODO: Keep while investigating render issue for tools in all split panels,
+                //       other than the one being split, when dragging and dropping tools.
+                ////foreach (DockNodeViewModel child in this.ViewModel.Children)
+                ////{
+                ////    child.PropertyChanged += this.OnChildPropertyChanged;
+                ////}
             }
 
             if (this.DataContext is DockSplitNodeViewModel vm && vm.Children is not null)
             {
                 this.ViewModel = vm;
                 this.ViewModel.Children.CollectionChanged += this.OnChildrenChanged;
+
+                // TODO: Keep while investigating render issue for tools in all split panels,
+                //       other than the one being split, when dragging and dropping tools.
+                ////foreach (DockNodeViewModel child in this.ViewModel.Children)
+                ////{
+                ////    child.PropertyChanged += this.OnChildPropertyChanged;
+                ////}
+
                 this.RebuildLayout();
             }
             else

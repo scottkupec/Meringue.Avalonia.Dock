@@ -1,7 +1,9 @@
 ﻿// Copyright (C) Meringue Project Team. All rights reserved.
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Meringue.Avalonia.Dock.ViewModels;
@@ -34,18 +36,20 @@ namespace HelloCustomControl.ViewModels
 
         /// <summary>Build a DockHostRootViewModel.</summary>.
         /// <returns>The thing built.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0005:Weak random number generator", Justification = "Randomness used for demo UI updates only")]
         private static DockHostRootViewModel BuildHostRoot()
         {
             DockSplitNodeViewModel splitPanel = new() { Orientation = global::Avalonia.Layout.Orientation.Horizontal };
             DockTabNodeViewModel helloTabPanel = new();
 
+            SimpleDockToolViewModel tool = new();
             helloTabPanel.Tabs.Add(
                 new DockToolViewModel
                 {
                     Id = "simple-tool",
                     Header = "Test Tool",
                     Title = "- This is a tool title",
-                    Context = new SimpleDockToolViewModel(),
+                    Context = tool,
                 });
 
             DockTabNodeViewModel dockTabPanel = new();
@@ -59,6 +63,21 @@ namespace HelloCustomControl.ViewModels
 
             splitPanel.Children.Add(helloTabPanel);
             splitPanel.Children.Add(dockTabPanel);
+
+            // Timer to update the context every second
+            DispatcherTimer timer = new()
+            {
+                Interval = TimeSpan.FromMilliseconds(250),
+            };
+
+            Random rng = new();
+
+            timer.Tick += (_, _) =>
+            {
+                tool.Text = rng.Next(1000).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            };
+
+            timer.Start();
 
             return new DockHostRootViewModel(splitPanel);
         }

@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using Avalonia.Layout;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Meringue.Avalonia.Dock.Controls;
@@ -38,5 +40,55 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// </remarks>
         [ObservableProperty]
         private ObservableCollection<Double> sizes = [];
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DockSplitNodeViewModel"/> class.
+        /// </summary>
+        public DockSplitNodeViewModel()
+        {
+            this.children.CollectionChanged += this.OnChildrenCollectionChanged;
+
+            // Optional: subscribe to existing items if any
+            foreach (DockNodeViewModel child in this.children)
+            {
+                child.PropertyChanged += this.OnChildPropertyChanged;
+            }
+        }
+
+        /// <summary>
+        /// Called when the <see cref="children"/> collection has changes.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
+        private void OnChildrenCollectionChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
+        {
+            if (eventArgs.NewItems != null)
+            {
+                foreach (DockNodeViewModel newChild in eventArgs.NewItems)
+                {
+                    newChild.PropertyChanged += this.OnChildPropertyChanged;
+                }
+            }
+
+            if (eventArgs.OldItems != null)
+            {
+                foreach (DockNodeViewModel oldChild in eventArgs.OldItems)
+                {
+                    oldChild.PropertyChanged -= this.OnChildPropertyChanged;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when a member of the <see cref="children"/> collection has changes.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
+        private void OnChildPropertyChanged(Object? sender, PropertyChangedEventArgs eventArgs)
+        {
+            // Handle the property change here
+            DockNodeViewModel? changedChild = sender as DockNodeViewModel;
+            System.Diagnostics.Debug.WriteLine($"Child changed: {changedChild}, Property: {eventArgs.PropertyName}");
+        }
     }
 }

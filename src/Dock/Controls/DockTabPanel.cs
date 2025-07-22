@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -297,8 +298,52 @@ namespace Meringue.Avalonia.Dock.Controls
         /// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
         private void OnItemsCollectionChanged(Object? sender, NotifyCollectionChangedEventArgs eventArgs)
         {
+            // TODO: Keep while investigating render issue for tools in all split panels,
+            //       other than the one being split, when dragging and dropping tools.
+            ////if (eventArgs.NewItems != null)
+            ////{
+            ////    foreach (Object? item in eventArgs.NewItems)
+            ////    {
+            ////        if (item is INotifyPropertyChanged npc)
+            ////        {
+            ////            npc.PropertyChanged += this.OnItemPropertyChanged;
+            ////        }
+            ////    }
+            ////}
+
+            ////if (eventArgs.OldItems != null)
+            ////{
+            ////    foreach (Object? item in eventArgs.OldItems)
+            ////    {
+            ////        if (item is INotifyPropertyChanged npc)
+            ////        {
+            ////            npc.PropertyChanged -= this.OnItemPropertyChanged;
+            ////        }
+            ////    }
+            ////}
+
             this.UpdateTabStripVisibility();
         }
+
+        // TODO: Keep while investigating render issue for tools in all split panels,
+        //       other than the one being split, when dragging and dropping tools.
+        /////// <summary>
+        /////// Called when a member of the view model's items collection has changes.
+        /////// </summary>
+        /////// <param name="sender">The sender of the event.</param>
+        /////// <param name="eventArgs">The <see cref="NotifyCollectionChangedEventArgs"/> for the event.</param>
+        ////private void OnItemPropertyChanged(Object? sender, PropertyChangedEventArgs eventArgs)
+        ////{
+        ////    System.Diagnostics.Debug.WriteLine($"[{eventArgs.PropertyName}] Changed!");
+
+        ////    // Example: update tab strip visibility if relevant
+        ////    if (eventArgs.PropertyName == nameof(DockToolViewModel.Context))
+        ////    {
+        ////        this.UpdateTabStripVisibility();
+        ////        ////this.RaisePropertyChanged(nameof(this.HasTabs));
+        ////        System.Diagnostics.Debug.WriteLine("XXX");
+        ////    }
+        ////}
 
         /// <summary>
         /// Called when dropping a tab onto the current control.
@@ -457,13 +502,32 @@ namespace Meringue.Avalonia.Dock.Controls
             if (this.CurrentItemsCollection != null)
             {
                 this.CurrentItemsCollection.CollectionChanged -= this.OnItemsCollectionChanged;
+
+                //// TODO: Store and unsubscribe from old items.
+                ////foreach (var item in this.CurrentItemsCollection.ToList())
+                ////{
+                ////    if (item is INotifyPropertyChanged npc)
+                ////    {
+                ////        npc.PropertyChanged -= this.OnItemPropertyChanged;
+                ////    }
+                ////}
             }
 
-            this.CurrentItemsCollection = this.Items;
+            this.CurrentItemsCollection = this.ItemsSource as INotifyCollectionChanged;
 
             if (this.CurrentItemsCollection != null)
             {
                 this.CurrentItemsCollection.CollectionChanged += this.OnItemsCollectionChanged;
+
+                // TODO: Keep while investigating render issue for tools in all split panels,
+                //       other than the one being split, when dragging and dropping tools.
+                ////foreach (Object? item in this.Items)
+                ////{
+                ////    if (item is INotifyPropertyChanged npc)
+                ////    {
+                ////        npc.PropertyChanged += this.OnItemPropertyChanged;
+                ////    }
+                ////}
             }
         }
 

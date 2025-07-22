@@ -79,7 +79,19 @@ namespace HelloCombo.ViewModels
 
             timer.Start();
 
-            return new DockHostRootViewModel(splitPanel);
+            DockSplitNodeViewModel splitPanel2 = new() { Orientation = global::Avalonia.Layout.Orientation.Horizontal };
+            splitPanel2.Children.Add(splitPanel);
+
+            DockTabNodeViewModel dockTabPanel2 = new();
+            DockToolViewModel helloTool2 = new()
+            {
+                Header = "Hello Tab",
+                Context = new TextBlock { Text = $"Hello #{rng.Next(1000)}", Margin = new Thickness(8) },
+            };
+
+            dockTabPanel2.Tabs.Add(helloTool2);
+            splitPanel2.Children.Add(dockTabPanel2);
+            return new DockHostRootViewModel(splitPanel2);
         }
 
         /// <summary>Build a DockLayoutRootViewModel.</summary>.

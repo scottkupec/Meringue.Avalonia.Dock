@@ -49,20 +49,22 @@ namespace Meringue.Avalonia.Dock.Controls
         public static readonly StyledProperty<Boolean> IsPinnedProperty =
             AvaloniaProperty.Register<DockTool, Boolean>(nameof(IsPinned));
 
-        /// <summary>
-        /// Initializes static members of the <see cref="DockTool"/> class.
-        /// </summary>
-        static DockTool()
-        {
-            _ = ContentProperty.Changed.Subscribe(
-                static change =>
-                {
-                    if (change.Sender is DockTool dockTool)
-                    {
-                        dockTool.InvalidateMeasure(); // or InvalidateVisual
-                    }
-                });
-        }
+        // TODO: Keep while investigating render issue for tools in all split panels,
+        //       other than the one being split, when dragging and dropping tools.
+        /////// <summary>
+        /////// Initializes static members of the <see cref="DockTool"/> class.
+        /////// </summary>
+        ////static DockTool()
+        ////{
+        ////    _ = ContentProperty.Changed.Subscribe(
+        ////        static change =>
+        ////        {
+        ////            if (change.Sender is DockTool dockTool)
+        ////            {
+        ////                dockTool.InvalidateMeasure(); // or InvalidateVisual
+        ////            }
+        ////        });
+        ////}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DockTool"/> class.
@@ -143,8 +145,10 @@ namespace Meringue.Avalonia.Dock.Controls
                 titleBar.PointerPressed += this.OnTitleBarPointerPressedAsync;
             }
 
-            this.InvalidateMeasure();
-            this.InvalidateVisual();
+            // TODO: Keep while investigating render issue for tools in all split panels,
+            //       other than the one being split, when dragging and dropping tools.
+            ////this.InvalidateMeasure();
+            ////this.InvalidateVisual();
         }
 
         /// <inheritdoc/>
@@ -169,20 +173,22 @@ namespace Meringue.Avalonia.Dock.Controls
             }
         }
 
-        /// <inheritdoc/>
-        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-        {
-            base.OnPropertyChanged(change);
+        // TODO: Keep while investigating render issue for tools in all split panels,
+        //       other than the one being split, when dragging and dropping tools.
+        /////// <inheritdoc/>
+        ////protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        ////{
+        ////    base.OnPropertyChanged(change);
 
-            if (change?.Property == ContentProperty)
-            {
-                System.Diagnostics.Debug.WriteLine($"[{this.GetHashCode()}] [{this.Header}] Invalidating visual.");
-                this.InvalidateMeasure();
-                this.InvalidateVisual();
+        ////    if (change?.Property == ContentProperty)
+        ////    {
+        ////        System.Diagnostics.Debug.WriteLine($"[{this.GetHashCode()}] [{this.Header}] Invalidating visual.");
+        ////        this.InvalidateMeasure();
+        ////        this.InvalidateVisual();
 
-                this.RaiseEvent(new RoutedEventArgs(ContentChangedEvent));
-            }
-        }
+        ////        this.RaiseEvent(new RoutedEventArgs(ContentChangedEvent));
+        ////    }
+        ////}
 
         /// <summary>Proceses <see cref="PointerPressedEventArgs"/> events when the pointer is pressed.</summary>
         /// <param name="sender">The sender of the event args.</param>

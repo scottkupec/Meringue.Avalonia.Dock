@@ -79,6 +79,49 @@ namespace Meringue.Avalonia.Dock.ViewModels
         protected internal IDockLayoutManager LayoutManager { get; set; }
 
         /// <summary>
+        /// Applies the provided layout to the current instance.
+        /// </summary>
+        /// <param name="layout">The <see cref="DockLayout"/> tto be applied.</param>
+        /// <returns><c>true</c> if the layout was applied; otherwise <c>false</c>.</returns>
+        public Boolean ApplyLayout(DockLayout layout)
+        {
+            // TODO: Review for leaking resources.
+            // TODO: Handle different merge options:
+            //       - KeepOldContexts
+            //       - KeepNewContexts (current, default)
+            //       - RemoveOldTools (don't re-add tools from rootGoingAway)
+            //       - RemoveNewTools (don't add tools from layout that aren't in rootGoingAway)
+            //       - KeepAllTools (current, default)
+            DockHostRootViewModel root = DockLayoutConverter.BuildViewModel(layout);
+            DockHostRootViewModel rootGoingAway = this.HostRoot;
+
+            this.HostRoot = root;
+            this.HostRoot.UnpinnedTabs.Clear();
+            this.HostRoot.HookPinnedChangeListeners(root.HostRoot);
+
+            foreach (DockTabNodeViewModel tabView in EnumerateTabViewModels(rootGoingAway.HostRoot))
+            {
+                foreach (DockToolViewModel tool in tabView.Tabs)
+                {
+                    DockToolViewModel? alreadyInsertedTool = this.HostRoot.HostRoot.FindTool(tool.Id);
+
+                    if (alreadyInsertedTool is not null)
+                    {
+                        alreadyInsertedTool.Context = tool.Context;
+                    }
+                    else
+                    {
+                        _ = this.CreateOrUpdateTool(tool.Id, tool.Header, tool.Context!, tabView.Id);
+                    }
+                }
+            }
+
+            this.OnPropertyChanged(nameof(this.HostRoot));
+
+            return true;
+        }
+
+        /// <summary>
         /// Adds or updates a tool in the layout.
         /// </summary>
         /// <param name="id">The id of the <see cref="DockTool"/> to be updated.</param>
@@ -238,47 +281,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
             {
                 yield return tabView;
             }
-        }
-
-        /// <summary>
-        /// Applies the provided layout to the current instance.
-        /// </summary>
-        /// <param name="layout">The <see cref="DockLayout"/> tto be applied.</param>
-        /// <returns><c>true</c> if the layout was applied; otherwise <c>false</c>.</returns>
-        private Boolean ApplyLayout(DockLayout layout)
-        {
-            // TODO: Review for leaking resources.
-            // TODO: Handle different merge options:
-            //       - KeepOldContexts
-            //       - KeepNewContexts (current, default)
-            //       - RemoveOldTools (don't re-add tools from rootGoingAway)
-            //       - RemoveNewTools (don't add tools from layout that aren't in rootGoingAway)
-            //       - KeepAllTools (current, default)
-            DockHostRootViewModel root = DockLayoutConverter.BuildViewModel(layout);
-            DockHostRootViewModel rootGoingAway = this.HostRoot;
-
-            this.HostRoot = root;
-            this.HostRoot.UnpinnedTabs.Clear();
-            this.HostRoot.HookPinnedChangeListeners(root.HostRoot);
-
-            foreach (DockTabNodeViewModel tabView in EnumerateTabViewModels(rootGoingAway.HostRoot))
-            {
-                foreach (DockToolViewModel tool in tabView.Tabs)
-                {
-                    DockToolViewModel? alreadyInsertedTool = this.HostRoot.HostRoot.FindTool(tool.Id);
-
-                    if (alreadyInsertedTool is not null)
-                    {
-                        alreadyInsertedTool.Context = tool.Context;
-                    }
-                    else
-                    {
-                        _ = this.CreateOrUpdateTool(tool.Id, tool.Header, tool.Context!, tabView.Id);
-                    }
-                }
-            }
-
-            return true;
         }
     }
 }
