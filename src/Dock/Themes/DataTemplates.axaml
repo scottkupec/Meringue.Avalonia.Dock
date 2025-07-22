@@ -5,11 +5,22 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <DataTemplate DataType="viewModels:DockHostRootViewModel">
-    <controls:DockHost Content="{Binding HostRoot}" />
+    <controls:DockHost DragDrop.AllowDrop="True"
+                       Content="{Binding HostRoot}" />
   </DataTemplate>
 
+  <DataTemplate DataType="viewModels:DockSplitNodeViewModel">
+    <controls:DockSplitPanel HorizontalAlignment="Stretch"
+                             Orientation="{Binding Orientation}"
+                             VerticalAlignment="Stretch" />
+  </DataTemplate>
+  
   <DataTemplate DataType="viewModels:DockTabNodeViewModel">
-    <controls:DockTabPanel ItemsSource="{Binding PinnedTabs}" />
+    <Panel Background="Transparent"
+           DragDrop.AllowDrop="True">
+      <controls:DockTabPanel DragDrop.AllowDrop="True"
+                             ItemsSource="{Binding PinnedTabs}" />
+    </Panel>
   </DataTemplate>
 
   <DataTemplate DataType="viewModels:DockToolViewModel">
