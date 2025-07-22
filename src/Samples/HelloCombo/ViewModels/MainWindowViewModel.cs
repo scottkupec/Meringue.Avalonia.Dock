@@ -1,7 +1,9 @@
 ﻿// Copyright (C) Meringue Project Team. All rights reserved.
 
+using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Meringue.Avalonia.Dock.ViewModels;
@@ -34,29 +36,48 @@ namespace HelloCombo.ViewModels
 
         /// <summary>Build a DockHostRootViewModel.</summary>.
         /// <returns>The thing built.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0005:Weak random number generator", Justification = "Randomness used for demo UI updates only")]
         private static DockHostRootViewModel BuildHostRoot()
         {
             DockSplitNodeViewModel splitPanel = new() { Orientation = global::Avalonia.Layout.Orientation.Horizontal };
             DockTabNodeViewModel helloTabPanel = new();
+            Random rng = new();
 
-            helloTabPanel.Tabs.Add(
-                new DockToolViewModel()
-                {
-                    Header = "Hello Tab",
-                    Context = new TextBlock { Text = "Hello", Margin = new Thickness(8) },
-                });
+            DockToolViewModel helloTool = new()
+            {
+                Header = "Hello Tab",
+                Context = new TextBlock { Text = $"Hello #{rng.Next(1000)}", Margin = new Thickness(8) },
+            };
+
+            helloTabPanel.Tabs.Add(helloTool);
 
             DockTabNodeViewModel dockTabPanel = new();
 
-            dockTabPanel.Tabs.Add(
-                new DockToolViewModel()
-                {
-                    Header = "Dock Tab",
-                    Context = new TextBlock { Text = "Dock", Margin = new Thickness(8) },
-                });
+            TextBlock dockTextBlock = new() { Text = $"Dock #{rng.Next(1000)}", Margin = new Thickness(8) };
+            DockToolViewModel dockTool = new()
+            {
+                Header = "Dock Tab",
+                Context = dockTextBlock,
+            };
+
+            dockTabPanel.Tabs.Add(dockTool);
 
             splitPanel.Children.Add(helloTabPanel);
             splitPanel.Children.Add(dockTabPanel);
+
+            // Timer to update the context every second
+            DispatcherTimer timer = new()
+            {
+                Interval = TimeSpan.FromMilliseconds(100),
+            };
+
+            timer.Tick += (_, _) =>
+            {
+                dockTextBlock.Text = $"Dock #{rng.Next(1000)}";
+                helloTool.Context = new TextBlock { Text = $"Hello #{rng.Next(1000)}", Margin = new Thickness(8) };
+            };
+
+            timer.Start();
 
             return new DockHostRootViewModel(splitPanel);
         }
