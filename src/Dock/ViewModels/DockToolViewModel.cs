@@ -12,6 +12,12 @@ namespace Meringue.Avalonia.Dock.ViewModels
     public partial class DockToolViewModel : ObservableObject
     {
         /// <summary>
+        /// Gets or sets the context/content of the tool.
+        /// </summary>
+        [ObservableProperty]
+        private Object? context;
+
+        /// <summary>
         /// Gets or sets a value indicating whether the tool is currently closed.
         /// </summary>
         [ObservableProperty]
@@ -50,11 +56,6 @@ namespace Meringue.Avalonia.Dock.ViewModels
         /// Gets or sets a value indicating whether the tool can be pinned.
         /// </summary>
         public Boolean CanPin { get; set; } = true;
-
-        /// <summary>
-        /// Gets or sets the content of the tool.
-        /// </summary>
-        public Object? Context { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the tool.

@@ -6,7 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Metadata;
+using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.Input;
 using Meringue.Avalonia.Dock.ViewModels;
 
@@ -15,13 +15,15 @@ namespace Meringue.Avalonia.Dock.Controls
     /// <summary>
     /// A custom tab item with a draggable/pinnable title bar.
     /// </summary>
-    public partial class DockTool : TemplatedControl
+    public partial class DockTool : ContentControl
     {
         /// <summary>
-        /// Defines the style property for the <see cref="Content"/> member.
+        /// Defines the routed event property for when content changes.
         /// </summary>
-        public static readonly StyledProperty<Object?> ContentProperty =
-            AvaloniaProperty.Register<DockTool, Object?>(nameof(Content));
+        public static readonly RoutedEvent<RoutedEventArgs> ContentChangedEvent =
+            RoutedEvent.Register<DockTool, RoutedEventArgs>(
+                nameof(ContentChanged),
+                RoutingStrategies.Bubble);
 
         /// <summary>
         /// Defines the style property for the <see cref="Header"/> member.
@@ -48,6 +50,21 @@ namespace Meringue.Avalonia.Dock.Controls
             AvaloniaProperty.Register<DockTool, Boolean>(nameof(IsPinned));
 
         /// <summary>
+        /// Initializes static members of the <see cref="DockTool"/> class.
+        /// </summary>
+        static DockTool()
+        {
+            _ = ContentProperty.Changed.Subscribe(
+                static change =>
+                {
+                    if (change.Sender is DockTool dockTool)
+                    {
+                        dockTool.InvalidateMeasure(); // or InvalidateVisual
+                    }
+                });
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DockTool"/> class.
         /// </summary>
         public DockTool()
@@ -57,13 +74,12 @@ namespace Meringue.Avalonia.Dock.Controls
         }
 
         /// <summary>
-        /// Gets or sets the tool content.
+        /// Defines the event handler for when content changees.
         /// </summary>
-        [Content]
-        public Object? Content
+        public event EventHandler<RoutedEventArgs> ContentChanged
         {
-            get => this.GetValue(ContentProperty);
-            set => this.SetValue(ContentProperty, value);
+            add => this.AddHandler(ContentChangedEvent, value);
+            remove => this.RemoveHandler(ContentChangedEvent, value);
         }
 
         /// <summary>
@@ -126,6 +142,9 @@ namespace Meringue.Avalonia.Dock.Controls
             {
                 titleBar.PointerPressed += this.OnTitleBarPointerPressedAsync;
             }
+
+            this.InvalidateMeasure();
+            this.InvalidateVisual();
         }
 
         /// <inheritdoc/>
@@ -147,6 +166,21 @@ namespace Meringue.Avalonia.Dock.Controls
             if (this.DataContext is DockToolViewModel viewModel)
             {
                 viewModel.IsHovered = false;
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+
+            if (change?.Property == ContentProperty)
+            {
+                System.Diagnostics.Debug.WriteLine($"[{this.GetHashCode()}] [{this.Header}] Invalidating visual.");
+                this.InvalidateMeasure();
+                this.InvalidateVisual();
+
+                this.RaiseEvent(new RoutedEventArgs(ContentChangedEvent));
             }
         }
 
