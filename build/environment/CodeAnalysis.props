@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.5.1" >
-  <!-- Code Analysis Files -->
-  <ItemGroup>
-    <AdditionalFiles Include="$(BuildEnvironmentRoot)/stylecop.json" Visible="false" />
-    <GlobalAnalyzerConfigFiles Include="$(BuildEnvironmentRoot)/AnalysisRules.prod" Condition="'$(IsTestProject)'!='true'" />
-    <GlobalAnalyzerConfigFiles Include="$(BuildEnvironmentRoot)/AnalysisRules.test" Condition="'$(IsTestProject)'=='true'" />
-  </ItemGroup>
-</Project>

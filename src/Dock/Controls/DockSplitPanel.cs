@@ -10,7 +10,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
-using Avalonia.Threading;
 using Meringue.Avalonia.Dock.ViewModels;
 
 namespace Meringue.Avalonia.Dock.Controls
@@ -67,6 +66,7 @@ namespace Meringue.Avalonia.Dock.Controls
 
             IEnumerable<Control> controls = BuildChildControls(this.ViewModel.Children);
             this.BuildGrid(this.Container, this.ViewModel.Orientation, controls);
+            this.Container.InvalidateVisual();
         }
 
         /// <summary>Save the current sizes of each column or row.</summary>

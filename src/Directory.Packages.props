@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <AvaloniaVersion>11.3.0</AvaloniaVersion>
-    <DockAvaloniaVersion>11.3.0.2</DockAvaloniaVersion>    
+    <DockAvaloniaVersion>11.3.0.2</DockAvaloniaVersion>
     <DependencyInjectionVersion>9.0.4</DependencyInjectionVersion>
   </PropertyGroup>
 
@@ -19,9 +19,33 @@
     <PackageVersion Include="System.Reactive.Linq" Version="6.0.1" />
     <PackageVersion Include="System.Text.Json" Version="9.0.6" />
   </ItemGroup>
-    
-  <!-- See also CodeAnalysis.targets because CPM doesn't cascade correctly. -->
-  <!-- See also CodeCoverage.targets because CPM doesn't cascade correctly. -->
-  <!-- See also TestProject.targets because CPM doesn't cascade correctly. -->
+
+  <ItemGroup>
+    <PackageVersion Include="coverlet.collector" Version="6.0.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="Moq" Version="4.18.4" /> <!-- DO NOT UPDATE. -->
+    <PackageVersion Include="NSubstitute" Version="5.1.0" />
+    <PackageVersion Include="nunit" Version="4.3.2" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <GlobalPackageReference Include="AsyncFixer" VersionOverride="1.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </GlobalPackageReference>
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" VersionOverride="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </GlobalPackageReference>
+    <GlobalPackageReference Include="StyleCop.Analyzers" VersionOverride="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </GlobalPackageReference>
+    <GlobalPackageReference Include="SecurityCodeScan.VS2019" VersionOverride="5.6.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </GlobalPackageReference>
+  </ItemGroup>
 
 </Project>
