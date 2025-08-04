@@ -1,4 +1,4 @@
-// Copyright (C) Meringue Project Team. All rights reserved.
+// Copyright (C) Scott Kupec. All rights reserved.
 
 using Avalonia.Controls;
 using HelloCombo.ViewModels;

@@ -8,7 +8,7 @@ root = true # Do not look for any .editorconfig in a shallower directory.
 
 # Code files
 # File header preferences
-file_header_template = Copyright (C) Meringue Project Team. All rights reserved.
+file_header_template = Copyright (C) Scott Kupec. All rights reserved.
 
 #### .NET Coding Conventions ####
 csharp_indent_block_contents = true
